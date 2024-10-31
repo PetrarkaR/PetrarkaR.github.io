@@ -1,0 +1,28 @@
+---
+title: Hello World
+date: 2024-10-31 09:35:00 +0100
+categories: [Update]
+     # TAG names should always be lowercase
+published: true
+---
+
+
+# Hello World
+
+This is the first post, marking the start of something that may be regarded as a blog for some, and a diary to others. I'd like it to one day grow to a place where people can get to learn and experience a bit more than everyday life. A place where people can see and read something they usually don't. 
+
+I've always loved to create and share knowledge people would find useful in some practice, and in the future period I want to focus on a couple of things that interest me, which are:
+- low level computing
+- digital design
+- mathematics
+
+These are a couple of areas I want to explore in the coming months/years and I wanted to kind of share my journey.
+
+But until then, I'll leave you all with
+{% highlight c %}
+void HelloWorld(){
+  printf("Hello World! \n");
+}
+{% endhighlight %}
+
+Goodbye.
