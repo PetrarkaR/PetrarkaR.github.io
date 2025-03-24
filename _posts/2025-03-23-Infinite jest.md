@@ -1,5 +1,5 @@
 ---
-title: New dimensions
+title: Infinite jest
 date: 2025-03-23 11:50:00 +0100
 categories: [Time]
      # TAG names should always be lowercase
