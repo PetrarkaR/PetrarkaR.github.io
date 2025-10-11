@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="{{ site.lang | default: " pt-BR" }}">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="icon" type="image/x-icon" href="/Languages/favicon.ico">
+	{% seo title=false %}
+	<title>
+		{{ site.title }} | {{ page.title }}
+	</title>
+	<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+	<script src="https://code.jquery.com/jquery-3.3.0.min.js"
+		integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+	<script src="{{ '/assets/js/main.js' | relative_url }}" type="module"></script>
+	<script src="{{ '/assets/js/icons.js' | relative_url }}" type="module"></script>
+	<!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	{% include head-custom.html %}
+</head>
+<body>
+	<header class="mobile mobile-header">
+		<h1>{{ site.title }}</h1>
+	</header>
+	<div class="navigation-wrapper">
+		<header>
+			<h1>{{ site.title }}</h1>
+		</header>
+		<nav id="header-navigation">
+			{% if site.posts.size > 0 %}
+			<h3 style="color: #ea00d9; font-size: 1.1rem; margin-top: 0; margin-bottom: 1rem;">Latest posts</h3>
+			<ul style="margin: 0; padding-left: 0; list-style: none;">
+				{% for post in site.posts limit: 5 %}
+				<li style="margin-bottom: 0.75rem;">
+					<a href="{{ post.url | relative_url }}" style="color: #0a9cf5; text-decoration: none; font-size: 0.95rem; line-height: 1.4; display: block;">{{ post.title }}</a>
+					<span style="color: #888; font-size: 0.85rem;">{{ post.date | date: "%b %d, %Y" }}</span>
+				</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<p style="color: #888; font-size: 0.9rem; font-style: italic;">No posts yet</p>
+			{% endif %}
+		</nav>
+		<footer>
+			{% if site.github.is_project_page %}
+			<p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+			{% endif %}
+			<p><small>Always remember you are loved.</a></small>
+			</p>
+		</footer>
+	</div>
+	<section>
+		{{ content }}
+	</section>
+	<footer class="mobile mobile-footer">
+		{% if site.github.is_project_page %}
+		<p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+		{% endif %}
+		<p><small>:3</a></small>
+		</p>
+	</footer>
+</body>
+</html>

@@ -1,4 +1,16 @@
 ---
-layout: home
-# Index page
+layout: default
+title: Home
 ---
+
+<h1>Latest Posts</h1>
+
+<ul>
+  {% for post in site.posts %}
+  <li>
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    <span style="color: #888"> — {{ post.date | date: "%B %d, %Y" }}</span>
+    <p>{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+  </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  {% seo %}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  <script src="https://code.jquery.com/jquery-3.3.0.min.js"
+          integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+  <script src="{{ '/assets/js/main.js' | relative_url }}" type="module"></script>
+  <script src="{{ '/assets/js/icons.js' | relative_url }}" type="module"></script>
+  <style>
+    /* Fix sidebar overlap - push main content to the right */
+    @media (min-width: 768px) {
+      main.post-content {
+        margin-left: 280px;
+        padding-left: 40px;
+      }
+    }
+    
+    /* Add spacing to post header */
+    .post-header {
+      margin-left:160px;
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+    
+    .post-header h1 {
+      margin-bottom: 15px;
+    }
+    
+    .post-meta {
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 5px;
+    }
+    
+    /* Prevent content overflow */
+    .post-content {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+    
+    .post-content img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .post-content pre {
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <header class="mobile mobile-header">
+    <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+  </header>
+  <div class="navigation-wrapper">
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+    </header>
+    <nav id="header-navigation">
+      <h3 style="color: #ea00d9; font-size: 1.1rem; margin-top: 0; margin-bottom: 1rem;">Check out earlier posts</h3>
+      <ul style="margin: 0; padding-left: 0; list-style: none;">
+        {% assign random_posts = site.posts | limit: 5 %}
+        {% for post in random_posts %}
+          <li style="margin-bottom: 0.75rem;">
+            <a href="{{ post.url | relative_url }}" style="color: #0a9cf5; text-decoration: none; font-size: 0.95rem; line-height: 1.4;">{{ post.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <footer>
+      <p><small>Remember to be kind.</small></p>
+    </footer>
+  </div>
+  <main class="post-content">
+    <article class="post">
+      <header class="post-header">
+        <h1>{{ page.title }}</h1>
+        <p class="post-meta">
+          {{ page.date | date: "%B %-d, %Y" }} |
+          Categories:
+          {% for cat in page.categories %}
+            <a href="{{ '/categories/' | append: cat | relative_url }}">{{ cat }}</a>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </p>
+      </header>
+      <section class="post-body">
+        {{ content }}
+      </section>
+    </article>
+  </main>
+  <footer class="mobile mobile-footer">
+  </footer>
+</body>
+</html>
