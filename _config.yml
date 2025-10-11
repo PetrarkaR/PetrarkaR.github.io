@@ -1,6 +1,8 @@
 remote_theme: ziinahzoor/cybersynth-theme
+
 plugins:
   - jekyll-remote-theme
+  - jekyll-archives
 
 title: Hopefully a blog
 tagline: My public academic diary
@@ -41,3 +43,11 @@ defaults:
       comments: true
       toc: true
       permalink: /posts/:title/
+
+jekyll-archives:
+  enabled:
+    - categories
+  layouts:
+    category: category
+  permalinks:
+    category: /categories/:name/

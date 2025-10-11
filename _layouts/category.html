@@ -1,0 +1,19 @@
+---
+layout: default
+---
+
+<h1>Category: {{ page.title }}</h1>
+
+{% if site.posts %}
+<ul>
+  {% assign cat_posts = site.posts | where_exp: "post", "post.categories
+  contains page.category" %} {% for post in cat_posts %}
+  <li>
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    <span>— {{ post.date | date: "%B %-d, %Y" }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No posts found in this category.</p>
+{% endif %}
