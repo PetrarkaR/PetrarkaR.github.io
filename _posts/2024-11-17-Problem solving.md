@@ -1,7 +1,7 @@
 ---
 title: Problem solving
 date: 2024-11-17 19:15:00 +0100
-categories: [Mental, Math]
+categories: [mental, math]
      # TAG names should always be lowercase
 published: true
 ---

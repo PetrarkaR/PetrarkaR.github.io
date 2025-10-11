@@ -1,7 +1,7 @@
 ---
 title: New dimensions
 date: 2025-03-19 11:57:00 +0100
-categories: [Update]
+categories: [update]
      # TAG names should always be lowercase
 published: true
 ---

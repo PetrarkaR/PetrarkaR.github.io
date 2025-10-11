@@ -1,7 +1,7 @@
 ---
 title: Modus operandi
 date: 2025-04-04 00:20:00 +0100
-categories: [Science]
+categories: [science]
 published: true
 ---
 

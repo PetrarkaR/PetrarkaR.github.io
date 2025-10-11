@@ -1,7 +1,7 @@
 ---
 title: First experiences
 date: 2024-11-30 19:15:00 +0100
-categories: [Mental, Time]
+categories: [mental, time]
      # TAG names should always be lowercase
 published: true
 ---

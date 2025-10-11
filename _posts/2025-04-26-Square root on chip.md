@@ -1,7 +1,7 @@
 ---
 title: Square root on chip
 date: 2025-04-26 01:30:00 +0100
-categories: [Science]
+categories: [science]
 published: true
 ---
 

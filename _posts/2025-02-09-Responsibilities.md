@@ -1,7 +1,7 @@
 ---
 title: Responsibilities
 date: 2025-02-09 17:15:00 +0100
-categories: [Update,Time]
+categories: [update,time]
      # TAG names should always be lowercase
 published: true
 ---

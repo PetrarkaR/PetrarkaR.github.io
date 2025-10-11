@@ -1,7 +1,7 @@
 ---
 title: How you do one thing
 date: 2025-06-28 00:06:00 +0100
-categories: [Thoughts]
+categories: [thoughts]
 published: true
 ---
 

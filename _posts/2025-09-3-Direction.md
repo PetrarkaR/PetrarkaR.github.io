@@ -1,7 +1,7 @@
 ---
 title: Direction
 date: 2025-09-03 00:06:00 +0100
-categories: [Thoughts]
+categories: [thoughts]
 published: true
 ---
 

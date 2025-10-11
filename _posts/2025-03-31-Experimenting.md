@@ -1,7 +1,7 @@
 ---
 title: Experimenting
 date: 2025-03-31 11:50:00 +0100
-categories: [Science]
+categories: [science]
 published: true
 ---
 

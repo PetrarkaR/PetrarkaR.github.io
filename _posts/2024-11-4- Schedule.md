@@ -1,7 +1,7 @@
 ---
 title: Schedule
 date: 2024-11-4 20:35:00 +0100
-categories: [Time]
+categories: [time]
      # TAG names should always be lowercase
 published: true
 ---

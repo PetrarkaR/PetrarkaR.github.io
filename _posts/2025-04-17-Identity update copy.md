@@ -1,7 +1,7 @@
 ---
 title: Identity update
 date: 2025-04-17 03:11:00 +0100
-categories: [Update, Time]
+categories: [update, time]
 published: true
 ---
 

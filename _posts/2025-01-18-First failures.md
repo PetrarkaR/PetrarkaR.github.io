@@ -1,7 +1,7 @@
 ---
 title: First failures
 date: 2025-01-18 04:15:00 +0100
-categories: [Mental,Time]
+categories: [mental,time]
      # TAG names should always be lowercase
 published: true
 ---

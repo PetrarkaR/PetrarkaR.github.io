@@ -1,7 +1,7 @@
 ---
 title: How does a computer know when it was born
 date: 2025-08-12 00:02:14 +0100
-categories: [Thoughts]
+categories: [thoughts]
 published: true
 ---
 

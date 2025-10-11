@@ -1,7 +1,7 @@
 ---
 title: Downward trends
 date: 2025-08-29 00:11:44 +0100
-categories: [Thoughts]
+categories: [thoughts]
 published: true
 ---
 

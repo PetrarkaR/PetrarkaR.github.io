@@ -1,7 +1,7 @@
 ---
 title: Rebranding
 date: 2025-01-08 03:15:00 +0100
-categories: [Mental, Update]
+categories: [mental, update]
      # TAG names should always be lowercase
 published: true
 ---

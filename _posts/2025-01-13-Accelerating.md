@@ -1,7 +1,7 @@
 ---
 title: Accelerating
 date: 2025-01-13 07:15:00 +0100
-categories: [Mental]
+categories: [mental]
      # TAG names should always be lowercase
 published: true
 ---
