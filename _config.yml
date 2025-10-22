@@ -12,7 +12,7 @@ lang: en
 timezone: Europe/Belgrade
 url: ""
 baseurl: ""
-
+future: true
 theme_mode: dark
 #pepika
 github:
