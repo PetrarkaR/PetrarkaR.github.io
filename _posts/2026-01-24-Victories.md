@@ -20,4 +20,4 @@ Currently it's 02:14, I sit at my table 12 hours after I just had the opportunit
 
 It's been about 3 days since I passed one of my greatest fears at the uni. Physics exam. It's not that it's hard, I just don't like it, I think its stupid and intolerable. That (along many other things) is just my opinion though! After that I do not think anything else can stop me in my wake. 
 
-But the thging that warms my heart the most is that maybe we will get a company off the ground and into running mode near the end of this year. Maybe it's all going to compile into something great. And I'm happy I've been given the opportunity to be a part of that. That's something special. Imma tell you guys all about it tho. Don't worry.
+But the thing that warms my heart the most is that maybe we will get a company off the ground and into running mode near the end of this year. Maybe it's all going to compile into something great. And I'm happy I've been given the opportunity to be a part of that. That's something special. Imma tell you guys all about it tho. Don't worry.
