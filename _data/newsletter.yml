@@ -1,0 +1,6 @@
+name: Hopefully a newsletter
+topic: Electronics, things I build, and what I learn along the way.
+frequency: Occasional notes
+# Set to true ONLY after replacing _includes/newsletter-form.html with your ESP form.
+signup_enabled: false
+provider: Brevo

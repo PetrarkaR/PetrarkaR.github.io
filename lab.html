@@ -100,4 +100,9 @@ uint16_t rootf(uint16_t input) {
     <p class="small muted">For now these go to the code. I'll bring more things here as I go.</p>
   </section>
 </div>
-<script type="module" src="{{ '/assets/js/lab.mjs' | relative_url }}"></script>
+<script type="module">
+  import("{{ '/assets/js/lab.mjs' | relative_url }}?v={{ site.time | date: '%s' }}").catch(() => {
+    document.querySelector("[data-cpu-status]").textContent =
+      "The lab could not load. Try Ctrl+Shift+R to refresh, and check that JavaScript is allowed for this site.";
+  });
+</script>

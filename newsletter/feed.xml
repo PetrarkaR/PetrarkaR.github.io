@@ -1,0 +1,26 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+  <title>{{ site.data.newsletter.name | xml_escape }}</title>
+  <link>{{ '/newsletter/' | absolute_url | xml_escape }}</link>
+  <description>{{ site.data.newsletter.topic | xml_escape }}</description>
+  <language>{{ site.lang | default: 'en' | xml_escape }}</language>
+  <atom:link href="{{ '/newsletter/feed.xml' | absolute_url | xml_escape }}" rel="self" type="application/rss+xml"/>
+  {% assign issues = site.issues | where_exp: 'issue', 'issue.newsletter == true' | where_exp: 'issue', 'issue.sample != true' | sort: 'date' | reverse %}
+  {% assign count = 0 %}
+  {% for issue in issues %}{% if issue.date <= site.time and count < 20 %}
+  {% assign count = count | plus: 1 %}
+  <item>
+    <title>{{ issue.title | xml_escape }}</title>
+    <link>{{ issue.url | absolute_url | xml_escape }}</link>
+    <guid isPermaLink="true">{{ issue.url | absolute_url | xml_escape }}</guid>
+    <pubDate>{{ issue.date | date_to_rfc822 }}</pubDate>
+    <description>{{ issue.description | xml_escape }}</description>
+    <content:encoded>{{ issue.content | markdownify | xml_escape }}</content:encoded>
+  </item>
+  {% endif %}{% endfor %}
+</channel>
+</rss>

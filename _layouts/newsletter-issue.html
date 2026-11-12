@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<link rel="stylesheet" href="{{ '/assets/css/newsletter.css' | relative_url }}">
+<article class="newsletter-page newsletter-issue">
+<header class="page-intro">
+  <p class="eyebrow">{{ site.data.newsletter.name | escape }}{% if page.sample %} · Sample issue{% endif %}</p>
+  <h1>{{ page.title | escape }}</h1>
+  <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%d %b %Y' }}</time>
+</header>
+{{ content }}
+<footer><p><a href="{{ '/newsletter/' | relative_url }}">Get the next letter</a> · <a href="{{ '/newsletter/archive/' | relative_url }}">Past letters</a></p></footer>
+</article>

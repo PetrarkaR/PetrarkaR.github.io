@@ -1,0 +1,17 @@
+---
+layout: default
+title: Newsletter archive
+permalink: /newsletter/archive/
+---
+<header class="page-intro"><h1>Past letters</h1><p><a href="{{ '/newsletter/' | relative_url }}">{{ site.data.newsletter.name | escape }}</a></p></header>
+{% assign issues = site.issues | where_exp: 'issue', 'issue.newsletter == true' | where_exp: 'issue', 'issue.sample != true' | sort: 'date' | reverse %}
+{% assign count = 0 %}
+{% for issue in issues %}{% if issue.date <= site.time %}
+{% assign count = count | plus: 1 %}
+<article class="post-preview">
+  <time datetime="{{ issue.date | date_to_xmlschema }}">{{ issue.date | date: '%d %b %Y' }}</time>
+  <h2><a href="{{ issue.url | relative_url }}">{{ issue.title | escape }}</a></h2>
+  <p>{{ issue.description | escape }}</p>
+</article>
+{% endif %}{% endfor %}
+{% if count == 0 %}<p>The first letter is still to come. Here's <a href="{{ '/newsletter/issues/sample/' | relative_url }}">a sample</a> of how it will look.</p>{% endif %}

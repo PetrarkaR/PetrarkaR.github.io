@@ -1,0 +1,23 @@
+/* Scoped to newsletter pages; HTML embeds inherit the blog's typography. */
+.newsletter-page { max-width: 44rem; }
+.newsletter-page section { margin-block: 2.5rem; }
+.newsletter-signup { padding: 1.5rem; border: 1px solid #303a46; border-radius: 4px; }
+.newsletter-embed { max-width: 100%; overflow-wrap: anywhere; }
+.newsletter-embed form { max-width: 100%; }
+.newsletter-embed label { display: block; margin-block: .75rem .35rem; }
+.newsletter-embed input[type="email"],
+.newsletter-embed input[type="text"] {
+  box-sizing: border-box; width: 100%; max-width: 28rem;
+  padding: .8rem; background: #131b24; color: #edf3f8;
+  border: 1px solid #607080; border-radius: 3px; font: inherit;
+}
+.newsletter-embed button, .newsletter-embed input[type="submit"] {
+  margin-top: .8rem; padding: .75rem 1.1rem; border: 1px solid #28bbd4;
+  border-radius: 3px; background: #131b24; color: #8ce3f0;
+  font: inherit; cursor: pointer;
+}
+.newsletter-embed :focus-visible { outline: 2px solid #e777e4; outline-offset: 3px; }
+.newsletter-issue { line-height: 1.8; }
+.newsletter-issue img { max-width: 100%; height: auto; }
+.newsletter-issue footer { border-top: 1px solid #303a46; margin-top: 3rem; padding-top: 1rem; }
+@media (max-width: 480px) { .newsletter-signup { padding: 1rem; } }

@@ -63,3 +63,9 @@ exclude:
   - Gemfile.lock
   - vendor
   - thinktank.txt
+
+# Newsletter issues are separate from the journal and its existing Atom feed.
+collections:
+  issues:
+    output: true
+    permalink: /newsletter/issues/:name/

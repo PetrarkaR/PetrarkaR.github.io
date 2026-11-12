@@ -17,6 +17,9 @@ const assert = require("node:assert/strict");
     "/shelf/",
     "/playground/",
     "/lab/",
+    "/newsletter/",
+    "/newsletter/archive/",
+    "/newsletter/issues/sample/",
     "/archives/",
     "/about/",
     "/posts/Crossroads/",
@@ -148,6 +151,24 @@ const assert = require("node:assert/strict");
       });
     }
   }
+  // A cached pre-CPU script must never be requested by the new page.
+  const cached = await browser.newPage();
+  await cached.route("**/assets/js/lab.mjs", route => route.fulfill({
+    contentType: "text/javascript", body: 'throw new Error("stale lab script")'
+  }));
+  await cached.goto(base + "/lab/");
+  await cached.waitForFunction(() => !document.querySelector("#cpu-input").disabled);
+  await cached.locator("#cpu-input").click();
+  await cached.locator("#cpu-input").press("ControlOrMeta+A");
+  await cached.locator("#cpu-input").press("Backspace");
+  await cached.locator("#cpu-input").pressSequentially("144");
+  assert.equal(await cached.locator("#cpu-input").inputValue(), "144");
+  await cached.close();
+  const broken = await browser.newPage();
+  await broken.route("**/assets/js/cpu.mjs", route => route.abort());
+  await broken.goto(base + "/lab/");
+  await broken.getByText(/The lab could not load/).waitFor();
+  await broken.close();
   const noJS = await browser.newPage({
     javaScriptEnabled: false,
     viewport: { width: 390, height: 844 },
@@ -172,7 +193,7 @@ const assert = require("node:assert/strict");
   assert.deepEqual(errors, []);
   await browser.close();
   console.log(
-    "Browser checks passed: 9 routes × 3 widths, categories, trails, time machine, lab, keyboard, no-JS.",
+    "Browser checks passed: 12 routes × 3 widths, categories, trails, time machine, lab, keyboard, no-JS.",
   );
 })().catch((error) => {
   console.error(error);
