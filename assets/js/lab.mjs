@@ -171,7 +171,7 @@ if (lab) {
     if (!running) return;
     if (!previousTime) previousTime = time;
     credit +=
-      (Math.min(time - previousTime, 100) * Number(find("speed").value)) / 1000;
+      (Math.min(time - previousTime, 100) * 4) / 1000;
     previousTime = time;
     let steps = Math.floor(credit);
     credit -= steps;

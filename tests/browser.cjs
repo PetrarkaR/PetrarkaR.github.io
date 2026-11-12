@@ -90,7 +90,7 @@ const assert = require("node:assert/strict");
   assert.equal(await page.locator("[data-reg-mar]").innerText(), "40");
   await page.locator("[data-instruction-step]").click();
   assert.equal(await page.locator("[data-reg-pc]").innerText(), "40");
-  await page.locator("[data-speed]").selectOption("4000");
+  assert.equal(await page.locator("[data-speed]").count(), 0);
   for (const [input, expected] of [
     [123, 11],
     [65535, 255],
@@ -100,9 +100,11 @@ const assert = require("node:assert/strict");
     await page.locator("#cpu-input").fill(String(input));
     assert.equal(await page.locator("[data-run]").innerText(), "Run");
     await page.locator("[data-run]").click();
-    await page.waitForFunction(
-      () => document.querySelector("[data-run]").textContent === "Run again",
-    );
+    await page.evaluate(() => {
+      const step = document.querySelector("[data-instruction-step]");
+      for (let n = 0; n < 1000 && !step.disabled; n++) step.click();
+    });
+    assert.equal(await page.locator("[data-run]").innerText(), "Run again");
     assert.ok(
       (await page.locator("[data-result]").innerText()).includes(
         `√${input} = ${expected} (integer part)`,
@@ -113,7 +115,7 @@ const assert = require("node:assert/strict");
     assert.ok(await page.locator("[data-state-step]").isDisabled());
   }
   await page.locator("[data-reset]").click();
-  await page.locator("[data-speed]").selectOption("4");
+
   await page.locator("[data-run]").click();
   await page.waitForFunction(
     () => Number(document.querySelector("[data-cycles]").textContent) > 0,
@@ -137,11 +139,13 @@ const assert = require("node:assert/strict");
     assert.ok(await page.locator("[data-instruction-step]").isDisabled());
   }
   await page.locator("#cpu-input").fill("123");
-  await page.locator("[data-speed]").selectOption("4000");
+  assert.equal(await page.locator("[data-speed]").count(), 0);
   await page.locator("[data-run]").click();
-  await page.waitForFunction(
-    () => document.querySelector("[data-run]").textContent === "Run again",
-  );
+  await page.evaluate(() => {
+    const step = document.querySelector("[data-instruction-step]");
+    for (let n = 0; n < 1000 && !step.disabled; n++) step.click();
+  });
+  assert.equal(await page.locator("[data-run]").innerText(), "Run again");
   if (process.env.BLOG_SCREENSHOTS) {
     for (const width of [390, 820, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
@@ -163,6 +167,10 @@ const assert = require("node:assert/strict");
   await cached.locator("#cpu-input").press("Backspace");
   await cached.locator("#cpu-input").pressSequentially("144");
   assert.equal(await cached.locator("#cpu-input").inputValue(), "144");
+  await cached.clock.install();
+  await cached.locator("[data-run]").click();
+  await cached.clock.runFor(1100);
+  assert.equal(await cached.locator("[data-cycles]").innerText(), "4");
   await cached.close();
   const broken = await browser.newPage();
   await broken.route("**/assets/js/cpu.mjs", route => route.abort());
