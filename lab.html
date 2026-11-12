@@ -1,0 +1,44 @@
+---
+layout: default
+title: Lab
+permalink: /lab/
+---
+<div class="little-lab">
+  <header class="lab-intro">
+    <h1>A little electronics lab</h1>
+    <p>Some things I've built. Some things I'm still trying to understand.<br>Figured it would be nice to put a few of them here.</p>
+  </header>
+
+  <section class="adder-experiment" data-adder aria-labelledby="adder-title">
+    <h2 id="adder-title">Adding two numbers</h2>
+    <p>I made a carry-tree adder in VHDL. Turns out there are quite a few ways to add two numbers. The annoying part is waiting for the carry.</p>
+    <p class="small muted">Click the bits, then step through it. Rightmost bit is the smallest.</p>
+    <div class="operand"><span>A</span><div class="bit-row">{% for bit in (0..7) reversed %}<button type="button" class="bit" data-operand="a" data-bit="{{ bit }}" aria-label="A, bit {{ bit }}" aria-pressed="true" disabled>1</button>{% endfor %}</div><output data-value-a aria-label="A in decimal">255</output></div>
+    <div class="operand"><span>B</span><div class="bit-row">{% for bit in (0..7) reversed %}<button type="button" class="bit" data-operand="b" data-bit="{{ bit }}" aria-label="B, bit {{ bit }}" aria-pressed="{% if bit == 0 %}true{% else %}false{% endif %}" disabled>{% if bit == 0 %}1{% else %}0{% endif %}</button>{% endfor %}</div><output data-value-b aria-label="B in decimal">1</output></div>
+
+    <div class="carry-network">
+      <div class="carry-label"><h3>One after another</h3><span data-ripple-progress>0 / 8 stages</span></div>
+      <div class="carry-row" data-ripple-row role="img" aria-label="Ripple carry, not started">{% for bit in (0..7) reversed %}<span class="carry-bit" data-bit="{{ bit }}">·</span>{% endfor %}</div>
+      <p class="carry-caption">← carry travels this way <span data-ripple-result></span></p>
+    </div>
+    <div class="carry-network">
+      <div class="carry-label"><h3>The tree</h3><span data-tree-progress>0 / 3 stages</span></div>
+      <div class="carry-row" data-tree-row role="img" aria-label="Initial generate bits, only bit zero generates a carry">{% for bit in (0..7) reversed %}<span class="carry-bit{% if bit == 0 %} is-one{% endif %}" data-bit="{{ bit }}">{% if bit == 0 %}1{% else %}0{% endif %}</span>{% endfor %}</div>
+      <p class="carry-caption">Groups grow: 2 bits, then 4, then 8. <span data-tree-result></span></p>
+    </div>
+
+    <div class="lab-controls"><button type="button" data-step disabled>Step</button><button type="button" data-run disabled>Run</button><button type="button" data-reset disabled>Start over</button></div>
+    <p class="lab-status small" data-adder-status role="status">255 + 1 is a good place to start. The carry has to get all the way across.</p>
+    <noscript><p class="small">The buttons need JavaScript. For 255 + 1, the carry travels through all eight bits. The tree combines the same information in three stages. The answer is 256.</p></noscript>
+    <details class="lab-details"><summary>A bit more about it</summary><p>The top row shows the carry leaving each bit. The bottom row shows whether each growing group generates a carry. After three combining stages, those groups give us all eight carries.</p><p>Both ways get the same answer. The tree does more work in parallel, at the cost of more wiring. These are logical stages, not clock cycles or measured hardware speed. The initial generate/propagate logic and final sum aren't counted in either row.</p><p>This little version has eight bits and a carry-in of zero. The ninth output bit is the carry-out.</p></details>
+    <p class="small lab-source"><a href="https://github.com/PetrarkaR/Projektovanje-VLSI">The VHDL this came from ↗</a></p>
+  </section>
+
+  <section class="lab-notes" aria-labelledby="bench-title">
+    <h2 id="bench-title">Also on the desk</h2>
+    <p><a href="https://github.com/PetrarkaR/apocacore">ApocaCore</a> — a processor simulator. Started this to understand RISC-V a bit better.</p>
+    <p><a href="https://github.com/PetrarkaR/diploma">Square root in hardware</a> — shifts, subtraction, and a result slowly taking shape.</p>
+    <p class="small muted">For now these go to the code. I'll bring more things here as I go.</p>
+  </section>
+</div>
+<script type="module" src="{{ '/assets/js/lab.mjs' | relative_url }}"></script>

@@ -16,6 +16,7 @@ const assert = require("node:assert/strict");
     "/trails/",
     "/shelf/",
     "/playground/",
+    "/lab/",
     "/archives/",
     "/about/",
     "/posts/Crossroads/",
@@ -73,27 +74,59 @@ const assert = require("node:assert/strict");
     "/archives/",
   );
   await page.goto(base + "/playground/");
-  await page.locator("[data-frequency]").fill("7");
-  await page.locator("[data-rate]").fill("8");
+  await page.waitForURL("**/lab/");
+  await page.locator("[data-step]:enabled").waitFor();
+  for (let step = 0; step < 3; step++)
+    await page.locator("[data-step]").click();
   assert.match(
-    await page.locator("[data-sampling-status]").innerText(),
-    /masquerade as 1 Hz/,
+    await page.locator("[data-tree-result]").innerText(),
+    /100000000 = 256/,
   );
-  assert.equal(await page.locator("[data-dots] circle").count(), 9);
-  await page.locator("[data-rate]").focus();
-  await page.keyboard.press("ArrowRight");
-  assert.equal(await page.locator("[data-rate]").inputValue(), "9");
-  await page.locator("[data-frequency]").fill("4");
-  await page.locator("[data-rate]").fill("8");
+  assert.equal(await page.locator("[data-ripple-result]").innerText(), "");
+  for (let step = 3; step < 8; step++)
+    await page.locator("[data-step]").click();
   assert.match(
-    await page.locator("[data-sampling-status]").innerText(),
-    /boundary/,
+    await page.locator("[data-ripple-result]").innerText(),
+    /100000000 = 256/,
   );
-  if (process.env.BLOG_SCREENSHOTS)
-    await page.screenshot({
-      path: `${process.env.BLOG_SCREENSHOTS}/playground.png`,
-      fullPage: true,
-    });
+  assert.ok(await page.locator("[data-step]").isDisabled());
+  await page.locator("[data-reset]").click();
+  assert.equal(await page.locator("[data-run]").innerText(), "Run");
+  const bit = page.locator('[data-operand="a"][data-bit="0"]');
+  await bit.focus();
+  await page.keyboard.press("Space");
+  assert.equal(await page.locator("[data-value-a]").innerText(), "254");
+  assert.equal(await bit.getAttribute("aria-pressed"), "false");
+  await page.locator("[data-run]").click();
+  await page.waitForFunction(
+    () =>
+      document.querySelector("[data-ripple-progress]").textContent !==
+      "0 / 8 stages",
+  );
+  await page.locator("[data-run]").click();
+  const paused = await page.locator("[data-ripple-progress]").innerText();
+  await page.waitForTimeout(650);
+  assert.equal(
+    await page.locator("[data-ripple-progress]").innerText(),
+    paused,
+  );
+  await page.locator("[data-run]").click();
+  await bit.click();
+  await page.waitForTimeout(650);
+  assert.equal(
+    await page.locator("[data-ripple-progress]").innerText(),
+    "0 / 8 stages",
+  );
+  assert.equal(await page.locator("[data-run]").innerText(), "Run");
+  if (process.env.BLOG_SCREENSHOTS) {
+    for (const width of [390, 820, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.screenshot({
+        path: `${process.env.BLOG_SCREENSHOTS}/lab-${width}.png`,
+        fullPage: true,
+      });
+    }
+  }
   const noJS = await browser.newPage({
     javaScriptEnabled: false,
     viewport: { width: 390, height: 844 },
@@ -105,14 +138,15 @@ const assert = require("node:assert/strict");
   );
   await noJS.locator("[data-time-machine]").click();
   assert.ok((await noJS.locator(".archive-list a").count()) > 10);
-  await noJS.goto(base + "/playground/");
-  assert.ok(await noJS.locator("[data-frequency]").isDisabled());
+  await noJS.goto(base + "/lab/");
+  assert.ok(await noJS.locator("[data-step]").isDisabled());
+  assert.match(await noJS.locator("noscript").innerText(), /answer is 256/);
   await noJS.locator("summary").click();
   assert.ok((await noJS.locator("details").getAttribute("open")) !== null);
   assert.deepEqual(errors, []);
   await browser.close();
   console.log(
-    "Browser checks passed: 8 routes × 3 widths, categories, trails, time machine, sampling, keyboard, no-JS.",
+    "Browser checks passed: 9 routes × 3 widths, categories, trails, time machine, lab, keyboard, no-JS.",
   );
 })().catch((error) => {
   console.error(error);

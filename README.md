@@ -45,7 +45,12 @@ files: commit and push to `main` to publish through GitHub Pages.
   writing, sorted by date; the original post date and prose stay intact. The
   homepage marks posts with reflections. Without notes, the section says there
   is no later note yet. No fictional reflections have been added.
-- **Signal experiment:** lives at `/playground/`. Add `experiment: sampling` to
+- **Electronics lab:** lives at `/lab/`; `/playground/` redirects there. The
+  eight-bit carry demo follows the three prefix stages in the VHDL project.
+  Click bits, step, run/pause, or reset. It compares logical carry stages, not
+  physical hardware speed. `assets/js/adder.mjs` is the pure arithmetic model;
+  `assets/js/lab.mjs` drives the interface.
+- **Older signal experiment:** still available as a post include. Add `experiment: sampling` to
   any post’s front matter to embed it after the article. Or include
   `{% include sampling.html %}` within a post. Multiple embeds
   work independently. The sliders use JavaScript; the explanation remains
@@ -70,4 +75,4 @@ bundle exec jekyll serve
 
 The browser smoke test needs Playwright and Chromium. See `tests/browser.cjs` for
 its environment variables. It checks routes, responsive overflow, random navigation,
-slider behavior, keyboard operation, and no-JavaScript fallbacks.
+carry propagation and playback, keyboard operation, and no-JavaScript fallbacks.

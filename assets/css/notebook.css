@@ -972,3 +972,187 @@ section {
     color: #444;
   }
 }
+
+/* A small workbench, kept close to the journal. */
+.little-lab {
+  max-width: 700px;
+}
+.lab-intro {
+  margin-bottom: 38px;
+}
+.lab-intro h1 {
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  letter-spacing: -0.025em;
+  color: var(--pink);
+}
+.lab-intro p,
+.adder-experiment > p,
+.lab-notes p {
+  font-size: 0.9rem;
+}
+.adder-experiment {
+  border-block: 1px solid var(--line);
+  padding: 28px 0 20px;
+}
+.adder-experiment h2,
+.lab-notes h2 {
+  font-size: 1.35rem;
+}
+.operand {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 38px;
+  gap: 12px;
+  align-items: center;
+  max-width: 540px;
+  margin: 12px 0;
+  font:
+    0.85rem ui-monospace,
+    monospace;
+}
+.bit-row,
+.carry-row {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 5px;
+}
+.bit {
+  min-height: 44px;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--muted);
+  cursor: pointer;
+  font:
+    1rem ui-monospace,
+    monospace;
+}
+.bit[aria-pressed='true'] {
+  color: var(--cyan);
+  border-color: #3b6770;
+}
+.bit:hover {
+  border-color: var(--pink);
+}
+.bit:focus-visible,
+.lab-controls button:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+.bit:disabled,
+.lab-controls button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.operand output {
+  text-align: right;
+  color: var(--muted);
+}
+.carry-network {
+  margin-top: 28px;
+}
+.carry-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.carry-label h3 {
+  font-size: 0.9rem;
+  margin: 0;
+}
+.carry-label > span {
+  color: var(--muted);
+  font:
+    0.72rem ui-monospace,
+    monospace;
+}
+.carry-row {
+  max-width: 540px;
+}
+.carry-bit {
+  display: grid;
+  place-items: center;
+  height: 36px;
+  color: var(--muted);
+  background: var(--panel);
+  border-bottom: 2px solid var(--line);
+  font:
+    0.95rem ui-monospace,
+    monospace;
+}
+.carry-bit.is-one {
+  color: var(--pink);
+  border-color: var(--pink);
+}
+.carry-bit.is-new {
+  outline: 1px dashed var(--muted);
+  outline-offset: 2px;
+}
+.carry-caption {
+  font:
+    0.7rem/1.8 ui-monospace,
+    monospace;
+  color: var(--muted);
+  margin: 9px 0 0;
+}
+.carry-caption span {
+  display: block;
+  color: var(--cyan);
+  min-height: 1.8em;
+}
+.lab-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 24px 0 12px;
+}
+.lab-controls button {
+  padding: 8px 16px;
+  min-height: 44px;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--panel);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.lab-controls button:hover {
+  border-color: var(--cyan);
+}
+.lab-status {
+  min-height: 3.5em;
+  color: var(--muted);
+}
+.lab-details {
+  font-size: 0.82rem;
+  margin-top: 12px;
+}
+.lab-details summary {
+  color: var(--cyan);
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.lab-source {
+  margin-top: 25px;
+}
+.lab-notes {
+  margin-top: 35px;
+}
+@media (max-width: 420px) {
+  .operand {
+    gap: 6px;
+    grid-template-columns: 14px minmax(0, 1fr) 30px;
+  }
+  .bit-row,
+  .carry-row {
+    gap: 3px;
+  }
+  .bit {
+    padding: 0;
+  }
+  .carry-label h3 {
+    font-size: 0.8rem;
+  }
+}

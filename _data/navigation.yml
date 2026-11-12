@@ -7,9 +7,9 @@
 - title: Shelf
   url: /shelf/
   symbol: '▤'
-- title: Playground
-  url: /playground/
-  symbol: '∿'
+- title: Lab
+  url: /lab/
+  symbol: '⌁'
 - title: Archive
   url: /archives/
   symbol: '◷'

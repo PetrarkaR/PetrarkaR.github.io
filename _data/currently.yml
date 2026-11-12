@@ -6,7 +6,7 @@ items:
     url:
   - label: Building
     text: This little corner of the internet.
-    url: /playground/
+    url: /lab/
   - label: Listening
     text:
     url:
