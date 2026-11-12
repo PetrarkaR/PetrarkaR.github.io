@@ -1,64 +1,42 @@
 <!doctype html>
-<html lang="{{ site.lang | default: " pt-BR" }}">
+<html lang="{{ site.lang | default: 'en' }}">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link rel="icon" type="image/x-icon" href="/favicon.ico">
-	{% seo title=false %}
-	<title>
-		{{ site.title }} | {{ page.title }}
-	</title>
-	<link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-	<script src="https://code.jquery.com/jquery-3.3.0.min.js"
-		integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
-	<script src="{{ '/assets/js/main.js' | relative_url }}" type="module"></script>
-	<script src="{{ '/assets/js/icons.js' | relative_url }}" type="module"></script>
-	<!--[if lt IE 9]>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
-    <![endif]-->
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	{% include head-custom.html %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% seo %}
+  {% feed_meta %}
+  <meta name="theme-color" content="#0d1117">
+  <link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400&family=Iceberg&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/notebook.css' | relative_url }}">
+  <script type="module" src="{{ '/assets/js/notebook.mjs' | relative_url }}"></script>
 </head>
 <body>
-	<header class="mobile mobile-header">
-		<h1>{{ site.title }}</h1>
-	</header>
-	<div class="navigation-wrapper">
-		<header>
-			<h1>{{ site.title }}</h1>
-		</header>
-		<nav id="header-navigation">
-			{% if site.posts.size > 0 %}
-			<h3 style="color: #ea00d9; font-size: 1.1rem; margin-top: 0; margin-bottom: 1rem;">Latest posts</h3>
-			<ul style="margin: 0; padding-left: 0; list-style: none;">
-				{% for post in site.posts limit: 5 %}
-				<li style="margin-bottom: 0.75rem;">
-					<a href="{{ post.url | relative_url }}" style="color: #0a9cf5; text-decoration: none; font-size: 0.95rem; line-height: 1.4; display: block;">{{ post.title }}</a>
-					<span style="color: #888; font-size: 0.85rem;">{{ post.date | date: "%b %d, %Y" }}</span>
-				</li>
-				{% endfor %}
-			</ul>
-			{% else %}
-			<p style="color: #888; font-size: 0.9rem; font-style: italic;">No posts yet</p>
-			{% endif %}
-		</nav>
-		<footer>
-			{% if site.github.is_project_page %}
-			<p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-			{% endif %}
-			<p><small>Always remember you are loved.</a></small>
-			</p>
-		</footer>
-	</div>
-	<section>
-		{{ content }}
-	</section>
-	<footer class="mobile mobile-footer">
-		{% if site.github.is_project_page %}
-		<p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-		{% endif %}
-		<p><small>:3</a></small>
-		</p>
-	</footer>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="site-shell">
+    <aside class="sidebar">
+      <a class="wordmark" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <p class="site-caption">{{ site.tagline }}</p>
+      <nav class="site-nav" aria-label="Main navigation">
+        {% for item in site.data.navigation %}
+        <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}><span aria-hidden="true">{{ item.symbol }}</span>{{ item.title }}</a>
+        {% endfor %}
+      </nav>
+      <a class="button time-machine" href="{{ '/archives/' | relative_url }}" data-time-machine data-current="{{ page.url | relative_url }}"{% if page.date %} data-date="{{ page.date | date_to_xmlschema }}"{% endif %}><span aria-hidden="true">↶</span> Time machine</a>
+      <p class="small muted time-hint">A little trip into the archive.</p>
+      <div class="sidebar-note">Always remember you are loved.<span aria-hidden="true"> :3</span></div>
+      <div class="sidebar-links"><a href="{{ '/feed.xml' | relative_url }}">RSS</a><a href="https://github.com/PetrarkaR">GitHub ↗</a></div>
+    </aside>
+    <main id="main" class="main-content" tabindex="-1">{{ content }}</main>
+  </div>
+  <footer class="site-footer">A work in progress. Just like everything else. <span aria-hidden="true">✳</span></footer>
+  <script id="post-index" type="application/json">[
+    {%- assign visible_posts = site.posts | where_exp: 'post', 'post.discovery_hidden != true' -%}
+    {%- for post in visible_posts -%}
+    {"url":{{ post.url | relative_url | jsonify }},"date":{{ post.date | date_to_xmlschema | jsonify }}}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]</script>
 </body>
 </html>

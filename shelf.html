@@ -1,0 +1,18 @@
+---
+layout: default
+title: Shelf
+permalink: /shelf/
+---
+<header class="page-intro"><p class="eyebrow">Things that stay with you</p><h1>A digital shelf.</h1><p class="lead">Books, papers, sounds, and small things. A place to leave a note before moving on.</p></header>
+<nav class="shelf-nav" aria-label="Shelf categories">{% for category in site.data.shelf.categories %}<a href="#{{ category.id }}">{{ category.title }}</a>{% endfor %}</nav>
+{% for category in site.data.shelf.categories %}
+<section class="shelf-section" id="{{ category.id }}"><div class="section-heading"><h2><span aria-hidden="true">{{ category.symbol }}</span> {{ category.title }}</h2></div>
+<div class="shelf-grid">{% assign items = site.data.shelf.items | where: 'category', category.id %}{% for item in items %}
+<article class="shelf-item panel">
+  <p class="eyebrow">{{ item.creator | escape }}</p><h3>{{ item.title | escape }}</h3>
+  <p>{{ item.note | escape }}</p>
+  {% if item.note_label %}<p class="small muted">{{ item.note_label | escape }}</p>{% endif %}
+  {% if item.post_title %}{% assign entry = site.posts | where: 'title', item.post_title | first %}{% if entry %}<a href="{{ entry.url | relative_url }}">Read the journal entry ↗</a>{% endif %}{% elsif item.url %}<a href="{{ item.url | relative_url }}">Take a look ↗</a>{% endif %}
+</article>
+{% else %}<div class="shelf-empty"><span aria-hidden="true">+</span><p>{{ category.empty }}</p><p class="small muted">Nothing on this shelf yet.</p></div>{% endfor %}</div></section>
+{% endfor %}

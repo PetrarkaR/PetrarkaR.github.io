@@ -1,0 +1,15 @@
+---
+layout: default
+title: Trails
+permalink: /trails/
+---
+<header class="page-intro"><p class="eyebrow">A different way through</p><h1>Follow a thread.</h1><p class="lead">The calendar is one way to read a life. These are a few others.</p></header>
+<div class="trails">
+{% assign posts = site.posts | where_exp: 'post', 'post.discovery_hidden != true' %}
+{% for trail in site.data.trails %}
+<section class="trail panel" id="{{ trail.id }}">
+  <div class="trail-heading"><span class="trail-symbol" aria-hidden="true">{{ trail.symbol }}</span><div><p class="eyebrow">Trail 0{{ forloop.index }}</p><h2>{{ trail.title }}</h2><p class="muted">{{ trail.description }}</p></div></div>
+  <ol class="trail-stops">{% for title in trail.posts %}{% assign entry = posts | where: 'title', title | first %}{% if entry %}<li><a href="{{ entry.url | relative_url }}">{{ entry.title }}</a><time datetime="{{ entry.date | date_to_xmlschema }}">{{ entry.date | date: '%b %Y' }}</time></li>{% endif %}{% endfor %}</ol>
+</section>
+{% endfor %}
+</div>

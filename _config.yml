@@ -3,6 +3,8 @@ remote_theme: ziinahzoor/cybersynth-theme
 plugins:
   - jekyll-remote-theme
   - jekyll-archives
+  - jekyll-seo-tag
+  - jekyll-feed
 
 title: Hopefully a blog
 tagline: My public academic diary
@@ -10,7 +12,7 @@ description: Academic exploration of different concepts through the eyes of a st
 
 lang: en
 timezone: Europe/Belgrade
-url: ""
+url: "https://petrarkar.github.io"
 baseurl: ""
 future: true
 theme_mode: dark
@@ -51,3 +53,13 @@ jekyll-archives:
     category: category
   permalinks:
     category: /categories/:name/
+
+exclude:
+  - docs
+  - tests
+  - tools
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - thinktank.txt

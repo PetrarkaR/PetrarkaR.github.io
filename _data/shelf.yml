@@ -1,0 +1,25 @@
+# Add personal notes here. Use a post's title for post_title or supply an external url.
+categories:
+  - id: books
+    title: Books
+    symbol: '▤'
+    empty: Room for another world.
+  - id: papers
+    title: Papers
+    symbol: '↗'
+    empty: The next rabbit hole goes here.
+  - id: music
+    title: Music
+    symbol: '♫'
+    empty: Waiting for the next track.
+  - id: objects
+    title: Little objects
+    symbol: '◇'
+    empty: Small things with a story to tell.
+items:
+  - category: books
+    title: Brave New World
+    creator: Aldous Huxley
+    note: 'It is truly a beautiful paradox.'
+    note_label: From the journal
+    post_title: Brave New World - Review

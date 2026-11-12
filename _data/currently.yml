@@ -1,0 +1,15 @@
+# Set updated to YYYY-MM-DD when changing these notes. Empty text gets a gentle empty state.
+updated:
+items:
+  - label: Reading
+    text:
+    url:
+  - label: Building
+    text: This little corner of the internet.
+    url: /playground/
+  - label: Listening
+    text:
+    url:
+  - label: Wondering
+    text:
+    url:

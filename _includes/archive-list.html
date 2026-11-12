@@ -1,0 +1,4 @@
+{% assign groups = include.posts | group_by_exp: 'post', "post.date | date: '%Y'" %}
+{% for group in groups %}
+<section class="archive-year"><h2>{{ group.name }}</h2><ul class="archive-list">{% for post in group.items %}<li><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%b %d' }}</time><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>{% endfor %}</ul></section>
+{% else %}<p class="muted">No entries here yet.</p>{% endfor %}

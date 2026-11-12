@@ -1,0 +1,16 @@
+<section class="reflections" aria-label="Then and now">
+  <div class="section-heading"><h2>Then / now</h2><span class="eyebrow">Room to change your mind</span></div>
+  {% if page.reflections and page.reflections.size > 0 %}
+    {% assign reflections = page.reflections | sort: 'date' %}
+    {% for reflection in reflections %}
+    <article class="reflection">
+      <p class="eyebrow">Revisited <time datetime="{{ reflection.date | date: '%Y-%m-%d' }}">{{ reflection.date | date: '%B %-d, %Y' }}</time></p>
+      {% if reflection.title %}<h3>{{ reflection.title | escape }}</h3>{% endif %}
+      {% if reflection.then %}<div class="reflection-then"><h4>Then</h4>{{ reflection.then | markdownify }}</div>{% endif %}
+      <div class="reflection-now"><h4>Now</h4>{{ reflection.now | markdownify }}</div>
+    </article>
+    {% endfor %}
+  {% else %}
+    <p class="muted">No later note yet. This is how it felt at the time.</p>
+  {% endif %}
+</section>

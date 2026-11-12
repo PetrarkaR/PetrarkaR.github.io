@@ -5,7 +5,7 @@ source "https://rubygems.org"
 gem "jekyll", "~> 4.4"
 gem "jekyll-remote-theme", "~> 0.4.3"
 gem "webrick" # needed for local `jekyll serve` in newer Ruby
-gem "jekyll-theme-chirpy", "~> 7.1", ">= 7.1.1"
+gem "jekyll-archives"
 gem "jekyll-feed"
 gem "jekyll-seo-tag"
 gem "jekyll-paginate"

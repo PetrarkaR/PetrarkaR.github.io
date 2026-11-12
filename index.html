@@ -2,15 +2,28 @@
 layout: default
 title: Home
 ---
-
-<h1>Latest Posts</h1>
-
-<ul>
-  {% for post in site.posts %}
-  <li>
-    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    <span style="color: #888"> — {{ post.date | date: "%B %d, %Y" }}</span>
-    <p>{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-  </li>
-  {% endfor %}
-</ul>
+<header class="page-intro home-intro">
+  <p class="eyebrow">Notes from somewhere along the way</p>
+  <h1>Still figuring<br>things <em>out.</em></h1>
+  <p class="lead">Thoughts, experiments, and the occasional change of mind.</p>
+</header>
+<div class="home-grid">
+  <section class="journal-list" aria-labelledby="journal-title">
+    <div class="section-heading"><h2 id="journal-title">Latest entries</h2><a class="small" href="{{ '/archives/' | relative_url }}">All entries ↗</a></div>
+    {% assign posts = site.posts | where_exp: 'post', 'post.discovery_hidden != true' %}
+    {% for post in posts limit: 8 %}
+    <article class="post-preview">
+      <time class="eyebrow" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%d %b %Y' }}</time>
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p>{{ post.description | default: post.excerpt | strip_html | truncatewords: 26 }}</p>
+      {% if post.reflections.size > 0 %}<a class="small reflection-marker" href="{{ post.url | relative_url }}">Then / now · revisited ↗</a>{% endif %}
+    </article>
+    {% endfor %}
+    <a class="text-link" href="{{ '/archives/' | relative_url }}">Further back in time →</a>
+  </section>
+  <div class="home-corner">
+    {% include currently.html %}
+    <section class="panel trail-teaser"><p class="eyebrow">Take the scenic route</p><h2>A thread to follow.</h2><p>Same questions. Different moments. A few paths through the journal.</p><a href="{{ '/trails/' | relative_url }}">Explore the trails ↗</a></section>
+    <section class="panel experiment-teaser"><span class="wave-mark" aria-hidden="true">∿∿∿</span><p class="eyebrow">A tiny experiment</p><h2>Catch a signal.</h2><p>What happens when you don’t look often enough?</p><a href="{{ '/playground/' | relative_url }}">Play with a wave ↗</a></section>
+  </div>
+</div>

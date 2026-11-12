@@ -1,0 +1,8 @@
+---
+layout: default
+title: Archive
+permalink: /archives/
+---
+<header class="page-intro"><p class="eyebrow">All the little moments</p><h1>The archive.</h1><p class="lead">From the beginning to wherever this is going.</p></header>
+{% assign posts = site.posts | where_exp: 'post', 'post.discovery_hidden != true' %}
+{% include archive-list.html posts=posts %}

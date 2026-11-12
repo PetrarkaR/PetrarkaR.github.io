@@ -45,6 +45,17 @@ jobs:
           ruby-version: 3.3
           bundler-cache: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test interactive features
+        run: node --test tests/*.test.mjs
+
+      - name: Test reflections
+        run: bundle exec ruby tests/reflections.rb
+
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
         env:
