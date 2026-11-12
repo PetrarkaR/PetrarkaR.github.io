@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400&family=Iceberg&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/notebook.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/newsletter.css' | relative_url }}">
   <script type="module" src="{{ '/assets/js/notebook.mjs' | relative_url }}"></script>
 </head>
 <body>
@@ -24,6 +25,15 @@
         <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}><span aria-hidden="true">{{ item.symbol }}</span>{{ item.title }}</a>
         {% endfor %}
       </nav>
+      <section class="sidebar-newsletter" aria-label="Newsletter">
+        <a class="newsletter-label" href="{{ '/newsletter/' | relative_url }}">{{ site.data.newsletter.name | escape }}</a>
+        {% unless page.url == '/newsletter/' %}
+          {% if site.data.newsletter.signup_enabled %}
+          <div class="newsletter-embed">{% include newsletter-form.html %}</div>
+          <p class="newsletter-note">Occasional letters. Unsubscribe anytime.</p>
+          {% endif %}
+        {% endunless %}
+      </section>
       <a class="button time-machine" href="{{ '/archives/' | relative_url }}" data-time-machine data-current="{{ page.url | relative_url }}"{% if page.date %} data-date="{{ page.date | date_to_xmlschema }}"{% endif %}>Time machine</a>
       <p class="small muted time-hint">A little trip into the archive.</p>
       <div class="sidebar-note">Always remember you are loved.<span aria-hidden="true"> :3</span></div>

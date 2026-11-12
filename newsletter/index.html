@@ -2,27 +2,13 @@
 layout: default
 title: Newsletter
 ---
-<link rel="stylesheet" href="{{ '/assets/css/newsletter.css' | relative_url }}">
-<div class="newsletter-page">
-<header class="page-intro">
-  <p class="eyebrow">{{ site.data.newsletter.frequency | escape }}</p>
+<div class="newsletter-page newsletter-landing">
   <h1>{{ site.data.newsletter.name | escape }}</h1>
-  <p class="lead">{{ site.data.newsletter.topic | escape }}</p>
-  <p>A small letter with something worth sharing. Read it in your inbox, whenever there's a new one.</p>
-</header>
-<section class="newsletter-signup" aria-labelledby="signup-heading">
-  <h2 id="signup-heading">Keep in touch</h2>
   {% if site.data.newsletter.signup_enabled %}
   <div class="newsletter-embed">{% include newsletter-form.html %}</div>
-  <p class="small muted">Subscribe to receive these notes by email. You can unsubscribe from any issue.</p>
+  <p class="newsletter-note">Occasional letters. Unsubscribe anytime.</p>
   {% else %}
-  <p>Email signup is not open yet. In the meantime, you can read along here.</p>
+  <p>Email signup is not open yet.</p>
   {% endif %}
-  <p><a href="{{ '/newsletter/archive/' | relative_url }}">Read the archive</a> · <a href="{{ '/newsletter/feed.xml' | relative_url }}">Subscribe by RSS</a></p>
-</section>
-<section>
-  <h2>What you'll find here</h2>
-  <p>Something I've been working on, a thing I finally understood, or a question I haven't figured out yet.</p>
-  <p><a href="{{ '/newsletter/issues/sample/' | relative_url }}">Read a sample issue</a></p>
-</section>
+  <p class="small"><a href="{{ '/newsletter/archive/' | relative_url }}">Past letters</a></p>
 </div>

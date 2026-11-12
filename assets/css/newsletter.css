@@ -161,3 +161,61 @@
   display: none;
   padding: 0.3rem;
 }
+
+.newsletter-landing {
+  max-width: 30rem;
+  padding-block: 1rem;
+}
+.newsletter-landing h1 {
+  margin-bottom: 1.25rem;
+}
+.newsletter-note {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin: 0.6rem 0 0;
+}
+.sidebar-newsletter {
+  margin: 0 0 24px;
+  padding-top: 4px;
+}
+.newsletter-label {
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+.sidebar-newsletter .newsletter-embed {
+  font-size: 0.75rem;
+}
+.sidebar-newsletter .newsletter-embed label {
+  margin-top: 0.3rem;
+}
+.sidebar-newsletter .newsletter-embed .sib-form input.input {
+  padding: 0.6rem;
+  min-height: 44px;
+}
+.sidebar-newsletter .newsletter-embed button {
+  padding: 0.55rem 0.8rem;
+  min-height: 44px;
+  margin-top: 0.5rem;
+}
+@media (max-width: 960px) {
+  .sidebar-newsletter {
+    max-width: 26rem;
+    margin-bottom: 18px;
+  }
+  .sidebar-newsletter #sib-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0 8px;
+    align-items: end;
+  }
+  .sidebar-newsletter #sib-form > div {
+    min-width: 0;
+  }
+  .sidebar-newsletter .newsletter-embed button {
+    margin: 0;
+  }
+  .sidebar-newsletter .newsletter-note {
+    font-size: 0.65rem;
+  }
+}

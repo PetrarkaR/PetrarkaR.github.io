@@ -46,6 +46,10 @@ Dir.mktmpdir('newsletter-test-') do |destination|
     raise 'Missing email input' unless form.at_css('input[name="EMAIL"][type="email"][required]')
     raise 'Missing provider anti-bot field' unless form.at_css('input[name="email_address_check"][tabindex="-1"]')
     raise 'Missing locale' unless form.at_css('input[name="locale"][value="en"]')
+    raise 'Duplicate signup on landing page' unless home.css('#sib-form').length == 1
+    journal = Nokogiri::HTML(File.read(File.join(destination, 'index.html')))
+    raise 'Sidebar signup missing' unless journal.css('.sidebar #sib-form').length == 1
+    raise 'Duplicate signup on homepage' unless journal.css('#sib-form').length == 1
   else
     raise 'Unconfigured signup should not accept addresses' unless home.css('form').empty?
   end

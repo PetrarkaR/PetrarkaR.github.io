@@ -24,39 +24,55 @@ const assert = require("node:assert/strict");
       });
     } else await route.abort();
   });
-  await p.goto(
-    (process.env.BLOG_URL || "http://127.0.0.1:4173") + "/newsletter/",
-  );
-  await p.waitForLoadState("networkidle");
-  for (const width of [390, 820, 1440]) {
-    await p.setViewportSize({ width, height: 1000 });
-    assert.ok(await p.locator("#EMAIL").isVisible());
-    assert.ok(
-      await p.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
+  for (const route of ["/newsletter/", "/", "/lab/"]) {
+    submitted = undefined;
+    await p.goto((process.env.BLOG_URL || "http://127.0.0.1:4173") + route);
+    assert.equal(await p.locator("#sib-form").count(), 1);
+    assert.equal(
+      await p
+        .locator('script[src*="sibforms.com/forms/end-form/build/main.js"]')
+        .count(),
+      1,
     );
-    if (process.env.BLOG_SCREENSHOTS)
-      await p.screenshot({
-        path: process.env.BLOG_SCREENSHOTS + "/newsletter-" + width + ".png",
-        fullPage: true,
-      });
+    if (route !== "/newsletter/")
+      assert.equal(await p.locator(".sidebar #sib-form").count(), 1);
+    await p.waitForLoadState("networkidle");
+    for (const width of [390, 820, 1440]) {
+      await p.setViewportSize({ width, height: 1000 });
+      assert.ok(await p.locator("#EMAIL").isVisible());
+      assert.ok(
+        await p.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      );
+      if (process.env.BLOG_SCREENSHOTS)
+        await p.screenshot({
+          path:
+            process.env.BLOG_SCREENSHOTS +
+            "/signup-" +
+            (route === "/" ? "home" : route.split("/")[1]) +
+            "-" +
+            width +
+            ".png",
+          fullPage: true,
+        });
+    }
+    await p.getByRole("button", { name: "Subscribe", exact: true }).click();
+    assert.equal(submitted, undefined);
+    assert.ok(await p.locator(".entry__error").isVisible());
+    await p.locator("#EMAIL").fill("form-check@example.com");
+    await p.getByRole("button", { name: "Subscribe", exact: true }).click();
+    await p.waitForFunction(() =>
+      document
+        .querySelector("#success-message")
+        .classList.contains("sib-form-message-panel--active"),
+    );
+    assert.ok(submitted.includes("EMAIL"));
+    assert.ok(
+      submitted.includes("form-check%40example.com") ||
+        submitted.includes("form-check@example.com"),
+    );
   }
-  await p.getByRole("button", { name: "Subscribe", exact: true }).click();
-  assert.equal(submitted, undefined);
-  assert.ok(await p.locator(".entry__error").isVisible());
-  await p.locator("#EMAIL").fill("form-check@example.com");
-  await p.getByRole("button", { name: "Subscribe", exact: true }).click();
-  await p.waitForFunction(() =>
-    document
-      .querySelector("#success-message")
-      .classList.contains("sib-form-message-panel--active"),
-  );
-  assert.ok(submitted.includes("EMAIL"));
-  assert.ok(
-    submitted.includes("form-check%40example.com") ||
-      submitted.includes("form-check@example.com"),
-  );
   assert.deepEqual(errors, []);
   console.log(
     "Form layout and validation pass; intercepted POST and success UI pass. No real subscription submitted.",
