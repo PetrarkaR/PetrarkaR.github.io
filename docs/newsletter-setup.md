@@ -87,11 +87,30 @@ at most 10 articles per campaign. A weekly schedule creates a digest.
 
 ## Write an issue
 
-Copy `_issues/sample.md` to `_issues/2026-11-19-first-letter.md`.
-Set title, description and actual date; `sample: false`; `newsletter: true`;
-permalink `/newsletter/issues/first-letter/`. Replace the sample body.
-Keep the permalink stable: it is the RSS GUID. Editing an old issue is not a
-reliable way to send a correction.
+The reusable template is `docs/newsletter-template.md`. The `docs` folder is
+excluded from the site and feed, so the blank template never gets emailed.
+
+```sh
+cp docs/newsletter-template.md _issues/my-next-letter.md
+```
+
+Edit the copy: replace the title, description, date, unique permalink slug and
+body. Use the actual publication time (Belgrade is +0100 in winter, +0200 in
+summer). The template already has `newsletter: true` and `sample: false`.
+Keep the permalink stable after publication: it is the RSS GUID.
+
+```sh
+git add _issues/my-next-letter.md
+git commit -m "Publish my next newsletter"
+git push origin main
+```
+
+After deployment, the issue appears on the site, in the archive and in the RSS
+feed. If automatic RSS delivery is active, Brevo can send it at its next scheduled
+check. Editing an old issue is not a reliable way to send a correction.
+
+The first live feed item is **Little memoirs: a test letter**, published expressly
+to test RSS delivery. The older `sample.md` remains excluded from the feed.
 
 Use absolute links and image URLs, for example
 `[the lab]({{ '/lab/' | absolute_url }})`. Link to interactive demos rather than
