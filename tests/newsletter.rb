@@ -39,7 +39,16 @@ Dir.mktmpdir('newsletter-test-') do |destination|
   raise 'Included issue missing from archive' unless archive.include?('/newsletter/issues/included/')
   raise 'Future issue leaked into archive' if archive.include?('/newsletter/issues/future-test/')
   home = Nokogiri::HTML(File.read(File.join(destination, 'newsletter/index.html')))
-  raise 'Unconfigured signup should not accept addresses' unless home.css('form').empty?
+  if site.data['newsletter']['signup_enabled']
+    form = home.at_css('#sib-form')
+    raise 'Missing Brevo form' unless form && form['method'].upcase == 'POST'
+    raise 'Form must submit directly to Brevo' unless form['action'].start_with?('https://2292a8c2.sibforms.com/serve/')
+    raise 'Missing email input' unless form.at_css('input[name="EMAIL"][type="email"][required]')
+    raise 'Missing provider anti-bot field' unless form.at_css('input[name="email_address_check"][tabindex="-1"]')
+    raise 'Missing locale' unless form.at_css('input[name="locale"][value="en"]')
+  else
+    raise 'Unconfigured signup should not accept addresses' unless home.css('form').empty?
+  end
   raise 'Existing journal feed missing' unless File.exist?(File.join(destination, 'feed.xml'))
 end
 puts 'Newsletter checks passed: strict RSS, escaped HTML, absolute links, stable GUID, dates and publication filters.'

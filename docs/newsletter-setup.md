@@ -18,7 +18,7 @@ newsletter/feed.xml             RSS template
 assets/css/newsletter.css        scoped form and reading styles
 ```
 
-Defaults: `Hopefully a newsletter`, electronics/building/learning topic, and
+Current name: `Little memoirs` (from the owner’s Brevo form). Other defaults: the electronics/building/learning topic and
 `Occasional notes`. Change these in `_data/newsletter.yml`. Set the real sending
 schedule in the ESP. Keep `_config.yml` URL `https://petrarkar.github.io`, baseurl empty.
 For another account use `https://USERNAME.github.io` and a public repository
@@ -38,8 +38,12 @@ Checked 2026-11-12:
   Sending requires account approval. Confirm RSS Campaign is available on your
   permanent Free plan, rather than a trial, before activating.
 
-GitHub Pages publishes the feed; it cannot send email. No ESP account is connected
-and no emails have been sent by this code.
+GitHub Pages publishes the feed; it cannot send email. The signup form is connected to the owner-provided Brevo hosted form. The local
+setup record is outside the repository at `~/.config/brevo/newsletter-setup.json`.
+The newsletter list was created as `Hopefully a newsletter` (ID 4); the active
+sender is configured in Brevo. No emails have been sent by this code. The form's
+list association and double opt-in must be verified with an actual confirmed
+subscription; RSS Campaign activation is still pending in the dashboard.
 
 ## Connect signup
 
