@@ -12,7 +12,7 @@ permalink: /shelf/
   <p class="eyebrow">{{ item.creator | escape }}</p><h3>{{ item.title | escape }}</h3>
   <p>{{ item.note | escape }}</p>
   {% if item.note_label %}<p class="small muted">{{ item.note_label | escape }}</p>{% endif %}
-  {% if item.post_title %}{% assign entry = site.posts | where: 'title', item.post_title | first %}{% if entry %}<a href="{{ entry.url | relative_url }}">Read the journal entry ↗</a>{% endif %}{% elsif item.url %}<a href="{{ item.url | relative_url }}">Take a look ↗</a>{% endif %}
+  {% if item.post_title %}{% assign entry = site.posts | where: 'title', item.post_title | first %}{% if entry %}<a href="{{ entry.url | relative_url }}">Read the journal entry</a>{% endif %}{% elsif item.url %}<a href="{{ item.url | relative_url }}">Take a look</a>{% endif %}
 </article>
 {% else %}<div class="shelf-empty"><span aria-hidden="true">+</span><p>{{ category.empty }}</p><p class="small muted">Nothing on this shelf yet.</p></div>{% endfor %}</div></section>
 {% endfor %}

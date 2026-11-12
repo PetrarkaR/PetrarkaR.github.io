@@ -986,121 +986,17 @@ section {
   color: var(--pink);
 }
 .lab-intro p,
-.adder-experiment > p,
+.cpu-experiment > p,
 .lab-notes p {
   font-size: 0.9rem;
 }
-.adder-experiment {
+.cpu-experiment {
   border-block: 1px solid var(--line);
   padding: 28px 0 20px;
 }
-.adder-experiment h2,
+.cpu-experiment h2,
 .lab-notes h2 {
   font-size: 1.35rem;
-}
-.operand {
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) 38px;
-  gap: 12px;
-  align-items: center;
-  max-width: 540px;
-  margin: 12px 0;
-  font:
-    0.85rem ui-monospace,
-    monospace;
-}
-.bit-row,
-.carry-row {
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: 5px;
-}
-.bit {
-  min-height: 44px;
-  min-width: 0;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  color: var(--muted);
-  cursor: pointer;
-  font:
-    1rem ui-monospace,
-    monospace;
-}
-.bit[aria-pressed='true'] {
-  color: var(--cyan);
-  border-color: #3b6770;
-}
-.bit:hover {
-  border-color: var(--pink);
-}
-.bit:focus-visible,
-.lab-controls button:focus-visible {
-  outline: 2px solid var(--pink);
-  outline-offset: 3px;
-}
-.bit:disabled,
-.lab-controls button:disabled {
-  cursor: default;
-  opacity: 0.5;
-}
-.operand output {
-  text-align: right;
-  color: var(--muted);
-}
-.carry-network {
-  margin-top: 28px;
-}
-.carry-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.carry-label h3 {
-  font-size: 0.9rem;
-  margin: 0;
-}
-.carry-label > span {
-  color: var(--muted);
-  font:
-    0.72rem ui-monospace,
-    monospace;
-}
-.carry-row {
-  max-width: 540px;
-}
-.carry-bit {
-  display: grid;
-  place-items: center;
-  height: 36px;
-  color: var(--muted);
-  background: var(--panel);
-  border-bottom: 2px solid var(--line);
-  font:
-    0.95rem ui-monospace,
-    monospace;
-}
-.carry-bit.is-one {
-  color: var(--pink);
-  border-color: var(--pink);
-}
-.carry-bit.is-new {
-  outline: 1px dashed var(--muted);
-  outline-offset: 2px;
-}
-.carry-caption {
-  font:
-    0.7rem/1.8 ui-monospace,
-    monospace;
-  color: var(--muted);
-  margin: 9px 0 0;
-}
-.carry-caption span {
-  display: block;
-  color: var(--cyan);
-  min-height: 1.8em;
 }
 .lab-controls {
   display: flex;
@@ -1140,19 +1036,272 @@ section {
 .lab-notes {
   margin-top: 35px;
 }
-@media (max-width: 420px) {
-  .operand {
-    gap: 6px;
-    grid-template-columns: 14px minmax(0, 1fr) 30px;
+.cpu-lab {
+  max-width: 900px;
+}
+.cpu-input {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 25px 0 0;
+}
+.cpu-input label,
+.cpu-speed {
+  font-size: 0.8rem;
+}
+.cpu-input input,
+.cpu-input button,
+.cpu-speed select {
+  font: inherit;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 8px 12px;
+  min-height: 44px;
+}
+.cpu-input input {
+  width: 110px;
+  margin-left: 10px;
+}
+.cpu-input button {
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.cpu-speed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lab-controls button:focus-visible,
+.cpu-input button:focus-visible,
+.cpu-speed select:focus-visible,
+.cpu-program:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+.cpu-experiment button:disabled,
+.cpu-experiment input:disabled,
+.cpu-experiment select:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.cpu-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+  min-height: 1.8em;
+}
+.cpu-result {
+  font:
+    1.05rem/1.7 ui-monospace,
+    monospace;
+  color: var(--cyan);
+  margin-bottom: 28px;
+}
+.cpu-stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 5px;
+}
+.cpu-stages li {
+  background: var(--panel);
+  padding: 9px 12px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  border-bottom: 2px solid var(--line);
+}
+.cpu-stages b {
+  display: block;
+  font:
+    0.8rem ui-monospace,
+    monospace;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+.cpu-stages li.is-active {
+  border-color: var(--pink);
+  color: var(--text);
+}
+.cpu-stages li.is-active b {
+  color: var(--pink);
+}
+.cpu-state-detail {
+  margin: 12px 0;
+  min-height: 3em;
+  color: var(--muted);
+}
+.cpu-diagram {
+  width: 100%;
+  max-width: 740px;
+  background: #0a1018;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.cpu-diagram rect {
+  fill: var(--panel);
+  stroke: var(--line);
+  stroke-width: 1.5;
+}
+.cpu-diagram text {
+  text-anchor: middle;
+  font:
+    13px ui-monospace,
+    monospace;
+  fill: var(--muted);
+}
+.cpu-diagram g.is-active rect {
+  stroke: var(--cyan);
+}
+.cpu-diagram g.is-active text {
+  fill: var(--text);
+}
+.cpu-wires path {
+  stroke: var(--line);
+  stroke-width: 2;
+}
+.cpu-wires path.is-active {
+  stroke: var(--cyan);
+}
+.cpu-counters {
+  margin: 12px 0 30px;
+  color: var(--muted);
+}
+.cpu-inspect {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 30px;
+  margin: 25px 0;
+}
+.cpu-inspect h3 {
+  font-size: 1rem;
+}
+.cpu-inspect p {
+  font-size: 0.72rem;
+}
+.cpu-program {
+  position: relative;
+  height: 280px;
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font:
+    0.76rem/1.9 ui-monospace,
+    monospace;
+}
+.cpu-program ol {
+  list-style: none;
+  padding: 7px 0;
+  margin: 0;
+}
+.cpu-program li {
+  padding: 2px 10px;
+  white-space: pre;
+  border-left: 2px solid transparent;
+}
+.cpu-program li.current {
+  background: #21303b;
+  border-color: var(--pink);
+}
+.cpu-program code {
+  color: var(--text);
+  font: inherit;
+}
+.instruction-address {
+  color: var(--muted);
+  margin-right: 15px;
+}
+.cpu-registers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0 0 12px;
+}
+.cpu-registers dt {
+  font:
+    0.7rem ui-monospace,
+    monospace;
+  color: var(--muted);
+}
+.cpu-registers dd {
+  margin: 5px 0 0;
+  font:
+    1rem ui-monospace,
+    monospace;
+}
+.cpu-registers dd.changed {
+  color: var(--pink);
+}
+.cpu-working {
+  font-size: 0.76rem;
+  margin: 18px 0 8px;
+}
+.cpu-working div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cpu-working dt {
+  color: var(--muted);
+}
+.cpu-working dd {
+  margin: 0;
+  font-family: ui-monospace, monospace;
+}
+.cpu-signals {
+  font-family: ui-monospace, monospace;
+  overflow-wrap: anywhere;
+}
+.cpu-table-wrap {
+  overflow: auto;
+}
+.cpu-iterations {
+  width: 100%;
+  border-collapse: collapse;
+  font:
+    0.78rem/1.8 ui-monospace,
+    monospace;
+}
+.cpu-iterations th,
+.cpu-iterations td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+.cpu-iterations th {
+  color: var(--muted);
+  font-weight: normal;
+}
+.cpu-experiment .lab-details {
+  margin-top: 24px;
+}
+.cpu-experiment .lab-details p {
+  font-size: 0.82rem;
+}
+@media (max-width: 620px) {
+  .cpu-inspect {
+    grid-template-columns: 1fr;
+    gap: 25px;
   }
-  .bit-row,
-  .carry-row {
-    gap: 3px;
+  .cpu-stages li {
+    padding: 8px;
   }
-  .bit {
-    padding: 0;
+  .cpu-diagram text {
+    font-size: 16px;
   }
-  .carry-label h3 {
-    font-size: 0.8rem;
+  .cpu-counters {
+    font-size: 0.65rem;
+  }
+  .lab-controls {
+    gap: 8px;
+  }
+  .lab-controls button {
+    padding: 8px 12px;
   }
 }

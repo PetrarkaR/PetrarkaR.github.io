@@ -45,11 +45,16 @@ files: commit and push to `main` to publish through GitHub Pages.
   writing, sorted by date; the original post date and prose stay intact. The
   homepage marks posts with reflections. Without notes, the section says there
   is no later note yet. No fictional reflections have been added.
-- **Electronics lab:** lives at `/lab/`; `/playground/` redirects there. The
-  eight-bit carry demo follows the three prefix stages in the VHDL project.
-  Click bits, step, run/pause, or reset. It compares logical carry stages, not
-  physical hardware speed. `assets/js/adder.mjs` is the pure arithmetic model;
-  `assets/js/lab.mjs` drives the interface.
+- **Electronics lab:** `/lab/` runs the `z4` VHDL microcontroller's instruction
+  set and controller states with a corrected square-root ROM based on `square.c`.
+  Enter a 16-bit unsigned number, Run/Pause, step a controller state or instruction,
+  or Reset. CPU/program source is in `assets/js/cpu*.mjs` and
+  `assets/js/sqrt-program.mjs`; the interface is `assets/js/lab.mjs`.
+  `node tools/export-sqrt-rom.mjs` regenerates the downloadable VHDL ROM.
+  The browser preloads RAM/input and starts at interrupt vector 04. It is a
+  functional model, not an electrical simulation; see “About this version” for
+  the exact adaptations. CPU tests check every 16-bit input. The original
+  `/playground/` address redirects to the lab.
 - **Older signal experiment:** still available as a post include. Add `experiment: sampling` to
   any post’s front matter to embed it after the article. Or include
   `{% include sampling.html %}` within a post. Multiple embeds
@@ -75,4 +80,4 @@ bundle exec jekyll serve
 
 The browser smoke test needs Playwright and Chromium. See `tests/browser.cjs` for
 its environment variables. It checks routes, responsive overflow, random navigation,
-carry propagation and playback, keyboard operation, and no-JavaScript fallbacks.
+processor execution, input validation and playback, keyboard operation, and no-JavaScript fallbacks.

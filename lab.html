@@ -3,35 +3,94 @@ layout: default
 title: Lab
 permalink: /lab/
 ---
-<div class="little-lab">
+<div class="little-lab cpu-lab">
   <header class="lab-intro">
     <h1>A little electronics lab</h1>
     <p>Some things I've built. Some things I'm still trying to understand.<br>Figured it would be nice to put a few of them here.</p>
   </header>
 
-  <section class="adder-experiment" data-adder aria-labelledby="adder-title">
-    <h2 id="adder-title">Adding two numbers</h2>
-    <p>I made a carry-tree adder in VHDL. Turns out there are quite a few ways to add two numbers. The annoying part is waiting for the carry.</p>
-    <p class="small muted">Click the bits, then step through it. Rightmost bit is the smallest.</p>
-    <div class="operand"><span>A</span><div class="bit-row">{% for bit in (0..7) reversed %}<button type="button" class="bit" data-operand="a" data-bit="{{ bit }}" aria-label="A, bit {{ bit }}" aria-pressed="true" disabled>1</button>{% endfor %}</div><output data-value-a aria-label="A in decimal">255</output></div>
-    <div class="operand"><span>B</span><div class="bit-row">{% for bit in (0..7) reversed %}<button type="button" class="bit" data-operand="b" data-bit="{{ bit }}" aria-label="B, bit {{ bit }}" aria-pressed="{% if bit == 0 %}true{% else %}false{% endif %}" disabled>{% if bit == 0 %}1{% else %}0{% endif %}</button>{% endfor %}</div><output data-value-b aria-label="B in decimal">1</output></div>
-
-    <div class="carry-network">
-      <div class="carry-label"><h3>One after another</h3><span data-ripple-progress>0 / 8 stages</span></div>
-      <div class="carry-row" data-ripple-row role="img" aria-label="Ripple carry, not started">{% for bit in (0..7) reversed %}<span class="carry-bit" data-bit="{{ bit }}">·</span>{% endfor %}</div>
-      <p class="carry-caption">← carry travels this way <span data-ripple-result></span></p>
+  <section class="cpu-experiment" data-cpu aria-labelledby="cpu-title">
+    <h2 id="cpu-title">Making it find a square root</h2>
+    <p>This is the microcontroller from my VLSI project. No multiply or divide instructions. Just shifts, subtraction, and a fair amount of moving bytes around.</p>
+    <p class="small muted">A functional browser model of the processor, with a corrected square-root ROM based on the project's C code.</p>
+    <form class="cpu-input" data-input-form>
+      <label for="cpu-input">Number <input id="cpu-input" name="number" type="number" min="0" max="65535" step="1" value="123" required aria-describedby="cpu-input-help" disabled></label>
+      <button type="submit" disabled>Load</button><span id="cpu-input-help" class="small muted">0 to 65535</span>
+    </form>
+    <div class="lab-controls">
+      <button type="button" data-run disabled>Run</button>
+      <button type="button" data-state-step disabled>Step state</button>
+      <button type="button" data-instruction-step disabled>Step instruction</button>
+      <button type="button" data-reset disabled>Reset</button>
+      <label class="cpu-speed" for="cpu-speed">Speed <select id="cpu-speed" data-speed disabled><option value="4">Slow</option><option value="400" selected>Normal</option><option value="4000">Fast</option></select></label>
     </div>
-    <div class="carry-network">
-      <div class="carry-label"><h3>The tree</h3><span data-tree-progress>0 / 3 stages</span></div>
-      <div class="carry-row" data-tree-row role="img" aria-label="Initial generate bits, only bit zero generates a carry">{% for bit in (0..7) reversed %}<span class="carry-bit{% if bit == 0 %} is-one{% endif %}" data-bit="{{ bit }}">{% if bit == 0 %}1{% else %}0{% endif %}</span>{% endfor %}</div>
-      <p class="carry-caption">Groups grow: 2 bits, then 4, then 8. <span data-tree-result></span></p>
-    </div>
+    <p class="cpu-status" data-cpu-status role="status">Enable JavaScript to run the processor. The code and explanation are below.</p>
+    <p class="cpu-result" data-result aria-live="polite">Result: not run yet.</p>
 
-    <div class="lab-controls"><button type="button" data-step disabled>Step</button><button type="button" data-run disabled>Run</button><button type="button" data-reset disabled>Start over</button></div>
-    <p class="lab-status small" data-adder-status role="status">255 + 1 is a good place to start. The carry has to get all the way across.</p>
-    <noscript><p class="small">The buttons need JavaScript. For 255 + 1, the carry travels through all eight bits. The tree combines the same information in three stages. The answer is 256.</p></noscript>
-    <details class="lab-details"><summary>A bit more about it</summary><p>The top row shows the carry leaving each bit. The bottom row shows whether each growing group generates a carry. After three combining stages, those groups give us all eight carries.</p><p>Both ways get the same answer. The tree does more work in parallel, at the cost of more wiring. These are logical stages, not clock cycles or measured hardware speed. The initial generate/propagate logic and final sum aren't counted in either row.</p><p>This little version has eight bits and a carry-in of zero. The ninth output bit is the carry-out.</p></details>
-    <p class="small lab-source"><a href="https://github.com/PetrarkaR/Projektovanje-VLSI">The VHDL this came from ↗</a></p>
+    <ol class="cpu-stages" aria-label="Sequential controller stages">
+      <li data-stage="I1"><b>I1</b> Address</li><li data-stage="I2"><b>I2</b> Fetch</li><li data-stage="I3"><b>I3</b> Decode</li><li data-stage="execute"><b data-execute-state>I4–I10</b> Execute</li>
+    </ol>
+    <p class="small cpu-state-detail" data-state-detail>PC starts at 04, the calculation interrupt vector.</p>
+    <svg class="cpu-diagram" viewBox="0 0 680 225" role="img" aria-label="Simplified processor data path: program counter, address register, RAM, instruction register, controller, accumulator and output">
+      <g class="cpu-wires" fill="none">
+        <path data-wire="I1 I6" d="M115 51H155"/>
+        <path data-wire="I2 I5 I10" d="M255 51H295"/>
+        <path data-wire="I2" d="M405 51H455"/>
+        <path data-wire="I3" d="M505 82V140"/>
+        <path data-wire="I9" d="M205 82V140"/>
+        <path data-wire="I5 I10" d="M350 82V110H285V140"/>
+        <path data-wire="I4" d="M165 171H115"/>
+        <path data-wire="I3" d="M335 171H455"/>
+      </g>
+      <g data-part="pc"><rect x="15" y="20" width="100" height="62" rx="3"/><text x="65" y="42">PC</text><text x="65" y="65" data-diagram-pc>04</text></g>
+      <g data-part="mar"><rect x="155" y="20" width="100" height="62" rx="3"/><text x="205" y="42">MAR</text><text x="205" y="65" data-diagram-mar>00</text></g>
+      <g data-part="ram"><rect x="295" y="20" width="110" height="62" rx="3"/><text x="350" y="42">RAM</text><text x="350" y="65">256 × 16</text></g>
+      <g data-part="ir"><rect x="455" y="20" width="160" height="62" rx="3"/><text x="535" y="42">IR</text><text x="535" y="65" data-diagram-ir>00</text></g>
+      <g data-part="controller"><rect x="455" y="140" width="160" height="62" rx="3"/><text x="535" y="162">Controller</text><text x="535" y="185" data-diagram-controller>I1</text></g>
+      <g data-part="alu"><rect x="165" y="140" width="170" height="62" rx="3"/><text x="250" y="162">ALU / ACC</text><text x="250" y="185" data-diagram-alu>00 · F=0 Z=1</text></g>
+      <g data-part="out"><rect x="15" y="140" width="100" height="62" rx="3"/><text x="65" y="162">Display</text><text x="65" y="185" data-diagram-out>00 00</text></g>
+    </svg>
+    <p class="cpu-counters small"><span data-cycles>0</span> state steps · <span data-instructions>0</span> instructions · <span data-pairs>0</span> / 8 bit pairs</p>
+
+    <div class="cpu-inspect">
+      <section aria-labelledby="program-title"><h3 id="program-title">The program</h3><p class="small muted" data-program-phase>Start</p><div class="cpu-program" tabindex="0" aria-label="Assembly listing; current instruction is highlighted"><ol data-program-list></ol><noscript><p>The assembly listing appears when JavaScript is enabled. You can also <a href="{{ '/assets/lab/ROM_squareroot_demo.vhd' | relative_url }}">read the ROM source</a>.</p></noscript></div></section>
+      <section aria-labelledby="register-title"><h3 id="register-title">Inside the machine</h3><dl class="cpu-registers">
+        <div><dt>PC</dt><dd data-reg-pc>04</dd></div><div><dt>MAR</dt><dd data-reg-mar>00</dd></div><div><dt>IR</dt><dd data-reg-ir>00</dd></div><div><dt>ACC</dt><dd data-reg-acc>00</dd></div><div><dt>F</dt><dd data-reg-flag>0</dd></div><div><dt>Z</dt><dd data-reg-zero>1</dd></div>
+      </dl><p class="small muted">Registers are hexadecimal. F is carry/borrow; Z means ACC is zero.</p>
+      <dl class="cpu-working">
+        <div><dt>Working input (A)</dt><dd data-working-input>123</dd></div><div><dt>Remainder (X)</dt><dd data-working-remainder>0</dd></div><div><dt>Trial divisor (Y)</dt><dd data-working-trial>0</dd></div><div><dt>Root (B)</dt><dd data-working-root>0</dd></div>
+      </dl><p class="small muted">Working values above are decimal.</p>
+      <details class="lab-details"><summary>Control signals</summary><p data-signals class="cpu-signals">Not started.</p><p class="small" data-bus>Data bus: idle.</p></details></section>
+    </div>
+    <details class="lab-details" data-iterations-details><summary>The eight iterations</summary>
+      <div class="cpu-table-wrap"><table class="cpu-iterations"><thead><tr><th>Pair</th><th>Bits</th><th>Trial</th><th>Remainder</th><th>Root</th></tr></thead><tbody data-iterations></tbody></table></div><p class="small muted" data-iterations-empty>No pairs processed yet.</p>
+    </details>
+    <details class="lab-details"><summary>The code, before the assembly</summary><p>The input is read two bits at a time. Try a subtraction, keep it if it fits, then append a bit to the root. Eight rounds for a 16-bit input.</p>
+    <div class="prose">{% highlight c %}
+uint16_t rootf(uint16_t input) {
+    uint16_t accumulator = 0;
+    uint16_t extracted = 0;
+    int16_t bitDepth = 7;
+
+    while (bitDepth >= 0) {
+        extracted = (extracted << 2)
+                  | ((input >> (bitDepth * 2)) & 0b011);
+        uint16_t sub = (accumulator << 2) | 1;
+
+        if (extracted >= sub) {
+            extracted -= sub;
+            accumulator = (accumulator << 1) | 1;
+        } else {
+            accumulator <<= 1;
+        }
+        bitDepth--;
+    }
+    return accumulator;
+}
+{% endhighlight %}</div>
+      <p class="small"><a href="{{ '/assets/lab/square.c' | relative_url }}">Original C file</a> · <a href="{{ '/assets/lab/ROM_squareroot_demo.vhd' | relative_url }}">The ROM running here</a></p>
+    </details>
+    <details class="lab-details"><summary>About this version</summary><p>The instruction set, accumulator flags and I1–I10 controller states follow the project's VHDL. These are sequential controller states, not a pipeline. The browser starts after the ROM has been loaded into RAM, with the input bytes already set, at the calculation interrupt vector.</p><p>The ROM program here is a corrected translation of <code>square.c</code>. The checked-in ROM gave 11 for 123, but 116 for 65535 in an instruction-level check. This version keeps both bytes of the remainder and trial divisor, and checks subtraction borrow. It has been tested for every input from 0 to 65535.</p><p>This is a functional model, not an electrical simulation. The board's button debouncing, ROM-copy startup, RAM clock edges and seven-segment wiring are left out. RAM writes update the data byte; undriven upper bits are not simulated. The downloadable ROM hasn't been tested on an FPGA.</p><p><a href="https://github.com/PetrarkaR/Projektovanje-VLSI/tree/17b0385ccd2a95c651c14b3190fbfc2d8d01ff23/z4">Original project files</a></p></details>
   </section>
 
   <section class="lab-notes" aria-labelledby="bench-title">

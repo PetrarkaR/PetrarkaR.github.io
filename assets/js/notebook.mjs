@@ -12,7 +12,7 @@ if (index) {
         link.href = pickOlderPost(posts, current, date).url;
       });
     } else {
-      link.textContent = "↶ Explore the archive";
+      link.textContent = "Explore the archive";
       const hint = document.querySelector(".time-hint");
       if (hint)
         hint.textContent = "You’re at the beginning. See the whole story.";

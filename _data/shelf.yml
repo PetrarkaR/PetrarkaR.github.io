@@ -6,7 +6,7 @@ categories:
     empty: Room for another world.
   - id: papers
     title: Papers
-    symbol: '↗'
+    symbol: '·'
     empty: The next rabbit hole goes here.
   - id: music
     title: Music

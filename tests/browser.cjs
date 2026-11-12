@@ -75,49 +75,70 @@ const assert = require("node:assert/strict");
   );
   await page.goto(base + "/playground/");
   await page.waitForURL("**/lab/");
-  await page.locator("[data-step]:enabled").waitFor();
-  for (let step = 0; step < 3; step++)
-    await page.locator("[data-step]").click();
-  assert.match(
-    await page.locator("[data-tree-result]").innerText(),
-    /100000000 = 256/,
-  );
-  assert.equal(await page.locator("[data-ripple-result]").innerText(), "");
-  for (let step = 3; step < 8; step++)
-    await page.locator("[data-step]").click();
-  assert.match(
-    await page.locator("[data-ripple-result]").innerText(),
-    /100000000 = 256/,
-  );
-  assert.ok(await page.locator("[data-step]").isDisabled());
+  await page.locator("[data-state-step]:enabled").waitFor();
+  assert.doesNotMatch(await page.locator(".sidebar").innerText(), /[←→↗↶]/);
+  assert.doesNotMatch(await page.locator(".little-lab").innerText(), /[←→↗↶]/);
+  await page.locator("[data-state-step]").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await page.locator("[data-reg-mar]").innerText(), "04");
+  assert.match(await page.locator("[data-state-detail]").innerText(), /I1/);
+  await page.locator("[data-state-step]").click();
+  assert.equal(await page.locator("[data-reg-ir]").innerText(), "B8");
+  assert.equal(await page.locator("[data-reg-mar]").innerText(), "40");
+  await page.locator("[data-instruction-step]").click();
+  assert.equal(await page.locator("[data-reg-pc]").innerText(), "40");
+  await page.locator("[data-speed]").selectOption("4000");
+  for (const [input, expected] of [
+    [123, 11],
+    [65535, 255],
+    [0, 0],
+    [2, 1],
+  ]) {
+    await page.locator("#cpu-input").fill(String(input));
+    assert.equal(await page.locator("[data-run]").innerText(), "Run");
+    await page.locator("[data-run]").click();
+    await page.waitForFunction(
+      () => document.querySelector("[data-run]").textContent === "Run again",
+    );
+    assert.ok(
+      (await page.locator("[data-result]").innerText()).includes(
+        `√${input} = ${expected} (integer part)`,
+      ),
+    );
+    assert.equal(await page.locator("[data-pairs]").innerText(), "8");
+    assert.equal(await page.locator("[data-iterations] tr").count(), 8);
+    assert.ok(await page.locator("[data-state-step]").isDisabled());
+  }
   await page.locator("[data-reset]").click();
-  assert.equal(await page.locator("[data-run]").innerText(), "Run");
-  const bit = page.locator('[data-operand="a"][data-bit="0"]');
-  await bit.focus();
-  await page.keyboard.press("Space");
-  assert.equal(await page.locator("[data-value-a]").innerText(), "254");
-  assert.equal(await bit.getAttribute("aria-pressed"), "false");
+  await page.locator("[data-speed]").selectOption("4");
   await page.locator("[data-run]").click();
   await page.waitForFunction(
-    () =>
-      document.querySelector("[data-ripple-progress]").textContent !==
-      "0 / 8 stages",
+    () => Number(document.querySelector("[data-cycles]").textContent) > 0,
   );
   await page.locator("[data-run]").click();
-  const paused = await page.locator("[data-ripple-progress]").innerText();
-  await page.waitForTimeout(650);
-  assert.equal(
-    await page.locator("[data-ripple-progress]").innerText(),
-    paused,
-  );
+  const paused = await page.locator("[data-cycles]").innerText();
+  await page.waitForTimeout(350);
+  assert.equal(await page.locator("[data-cycles]").innerText(), paused);
   await page.locator("[data-run]").click();
-  await bit.click();
-  await page.waitForTimeout(650);
-  assert.equal(
-    await page.locator("[data-ripple-progress]").innerText(),
-    "0 / 8 stages",
-  );
+  await page.locator("#cpu-input").fill("9");
+  await page.waitForTimeout(350);
+  assert.equal(await page.locator("[data-cycles]").innerText(), "0");
   assert.equal(await page.locator("[data-run]").innerText(), "Run");
+  await page.locator("[data-run]").click();
+  await page.locator("[data-reset]").click();
+  await page.waitForTimeout(350);
+  assert.equal(await page.locator("[data-cycles]").innerText(), "0");
+  for (const invalid of ["", "-1", "65536", "1.5"]) {
+    await page.locator("#cpu-input").fill(invalid);
+    assert.ok(await page.locator("[data-run]").isDisabled());
+    assert.ok(await page.locator("[data-instruction-step]").isDisabled());
+  }
+  await page.locator("#cpu-input").fill("123");
+  await page.locator("[data-speed]").selectOption("4000");
+  await page.locator("[data-run]").click();
+  await page.waitForFunction(
+    () => document.querySelector("[data-run]").textContent === "Run again",
+  );
   if (process.env.BLOG_SCREENSHOTS) {
     for (const width of [390, 820, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
@@ -139,10 +160,15 @@ const assert = require("node:assert/strict");
   await noJS.locator("[data-time-machine]").click();
   assert.ok((await noJS.locator(".archive-list a").count()) > 10);
   await noJS.goto(base + "/lab/");
-  assert.ok(await noJS.locator("[data-step]").isDisabled());
-  assert.match(await noJS.locator("noscript").innerText(), /answer is 256/);
-  await noJS.locator("summary").click();
-  assert.ok((await noJS.locator("details").getAttribute("open")) !== null);
+  assert.ok(await noJS.locator("[data-run]").isDisabled());
+  assert.match(
+    await noJS.locator("[data-cpu-status]").innerText(),
+    /Enable JavaScript/,
+  );
+  await noJS
+    .getByText("The code, before the assembly", { exact: true })
+    .click();
+  assert.ok(await noJS.locator(".highlight").isVisible());
   assert.deepEqual(errors, []);
   await browser.close();
   console.log(

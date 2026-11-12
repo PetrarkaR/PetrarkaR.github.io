@@ -9,21 +9,21 @@ title: Home
 </header>
 <div class="home-grid">
   <section class="journal-list" aria-labelledby="journal-title">
-    <div class="section-heading"><h2 id="journal-title">Latest entries</h2><a class="small" href="{{ '/archives/' | relative_url }}">All entries ↗</a></div>
+    <div class="section-heading"><h2 id="journal-title">Latest entries</h2><a class="small" href="{{ '/archives/' | relative_url }}">All entries</a></div>
     {% assign posts = site.posts | where_exp: 'post', 'post.discovery_hidden != true' %}
     {% for post in posts limit: 8 %}
     <article class="post-preview">
       <time class="eyebrow" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%d %b %Y' }}</time>
       <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
       <p>{{ post.description | default: post.excerpt | strip_html | truncatewords: 26 }}</p>
-      {% if post.reflections.size > 0 %}<a class="small reflection-marker" href="{{ post.url | relative_url }}">Then / now · revisited ↗</a>{% endif %}
+      {% if post.reflections.size > 0 %}<a class="small reflection-marker" href="{{ post.url | relative_url }}">Then / now · revisited</a>{% endif %}
     </article>
     {% endfor %}
-    <a class="text-link" href="{{ '/archives/' | relative_url }}">Further back in time →</a>
+    <a class="text-link" href="{{ '/archives/' | relative_url }}">Further back in time</a>
   </section>
   <div class="home-corner">
     {% include currently.html %}
-    <section class="panel trail-teaser"><p class="eyebrow">Take the scenic route</p><h2>A thread to follow.</h2><p>Same questions. Different moments. A few paths through the journal.</p><a href="{{ '/trails/' | relative_url }}">Explore the trails ↗</a></section>
-    <section class="panel experiment-teaser"><h2>A little lab</h2><p>Some electronics I've been working on. You can play with the bits.</p><a href="{{ '/lab/' | relative_url }}">Have a look →</a></section>
+    <section class="panel trail-teaser"><p class="eyebrow">Take the scenic route</p><h2>A thread to follow.</h2><p>Same questions. Different moments. A few paths through the journal.</p><a href="{{ '/trails/' | relative_url }}">Explore the trails</a></section>
+    <section class="panel experiment-teaser"><h2>A little lab</h2><p>Some electronics I've been working on. You can play with the bits.</p><a href="{{ '/lab/' | relative_url }}">Have a look</a></section>
   </div>
 </div>

@@ -11,8 +11,8 @@ layout: default
   {% if page.experiment == 'sampling' %}{% include sampling.html %}{% endif %}
   {% include reflections.html %}
   <nav class="post-navigation" aria-label="Adjacent posts">
-    {% if page.previous %}<a href="{{ page.previous.url | relative_url }}"><span class="eyebrow">← Earlier</span>{{ page.previous.title }}</a>{% endif %}
-    {% if page.next %}<a href="{{ page.next.url | relative_url }}"><span class="eyebrow">Later →</span>{{ page.next.title }}</a>{% endif %}
+    {% if page.previous %}<a href="{{ page.previous.url | relative_url }}"><span class="eyebrow">Earlier</span>{{ page.previous.title }}</a>{% endif %}
+    {% if page.next %}<a href="{{ page.next.url | relative_url }}"><span class="eyebrow">Later</span>{{ page.next.title }}</a>{% endif %}
   </nav>
-  <p class="small"><a href="{{ '/trails/' | relative_url }}">Follow a trail through the journal ↗</a></p>
+  <p class="small"><a href="{{ '/trails/' | relative_url }}">Follow a trail through the journal</a></p>
 </article>
