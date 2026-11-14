@@ -9,13 +9,14 @@ Jekyll::Hooks.register :site, :post_read do |site|
   collection.docs.clear # Isolate fixtures from real issues added in the future.
   [
     ['included', true, false, Time.now - 3600],
+    ['delivery-test', false, false, Time.now - 3600],
     ['sample-test', true, true, Time.now - 3600],
     ['excluded', false, false, Time.now - 3600],
     ['future-test', true, false, Time.now + 86400]
   ].each do |name, opted_in, sample, date|
     doc = Jekyll::Document.new(File.join(site.source, '_issues', "#{name}.md"), site: site, collection: collection)
     doc.data.merge!('title' => 'Bits & bytes <notes>', 'date' => date,
-      'newsletter' => opted_in, 'sample' => sample, 'description' => 'A & B',
+      'newsletter' => opted_in, 'delivery_test' => name == 'delivery-test', 'sample' => sample, 'description' => 'A & B',
       'layout' => 'newsletter-issue', 'permalink' => "/newsletter/issues/#{name}/")
     doc.content = "**Full content** with & and ]]> characters. [Lab]({{ '/lab/' | absolute_url }})"
     collection.docs << doc
@@ -28,6 +29,9 @@ Dir.mktmpdir('newsletter-test-') do |destination|
   xml = Nokogiri::XML(File.read(File.join(destination, 'newsletter/feed.xml'))) { |cfg| cfg.strict }
   items = xml.xpath('/rss/channel/item')
   raise 'Sample, future or non-opted-in issue leaked into RSS' unless items.length == 1
+  test_feed = Nokogiri::XML(File.read(File.join(destination, 'newsletter/test-feed.xml'))) { |cfg| cfg.strict }
+  test_items = test_feed.xpath('/rss/channel/item')
+  raise 'Delivery test feed must contain only its test issue' unless test_items.length == 1 && test_items.first.at_xpath('link').text.end_with?('/delivery-test/')
   item = items.first
   raise 'Escaped title failed' unless item.at_xpath('title').text == 'Bits & bytes <notes>'
   raise 'GUID is not stable URL' unless item.at_xpath('guid').text == 'https://petrarkar.github.io/newsletter/issues/included/'

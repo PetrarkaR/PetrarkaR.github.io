@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Little memoirs</title>
+</head>
+<body style="margin:0;padding:24px 16px;background:#ffffff;color:#222222;font-family:Georgia,serif;font-size:17px;line-height:1.65;">
+  <div style="max-width:600px;margin:0 auto;">
+    {% for item in params.items %}
+    <div style="margin-bottom:24px;">{{ item.CONTENT_ENCODED | safe }}</div>
+    {% endfor %}
+    <p style="margin-top:32px;font-family:Arial,sans-serif;font-size:12px;color:#666666;">
+      You're receiving Little memoirs because you subscribed.
+      <a href="{{ unsubscribe }}" style="color:#666666;">Unsubscribe</a>
+    </p>
+  </div>
+</body>
+</html>
